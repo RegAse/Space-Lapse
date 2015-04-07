@@ -4,6 +4,10 @@ import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Ship{
@@ -29,25 +33,40 @@ public class Ship{
         this.bullet01 = new Image("data/bullets/bullet01_tiny.png", false);
     }
 
+    public Ship(Vector2f position, float speed) throws SlickException
+    {
+        this.position = position;
+        this.speed = speed;
+        this.rotation = 0;
+        this.shots = new ArrayList<Bullet>();
+        //this.bullet01 = new Image("data/bullets/bullet01_tiny.png", false);
+    }
+
     public void Controller(GameContainer gc, int delta) throws SlickException
     {
         Input input = gc.getInput();
 
         /* Basic movement code */
-        if (input.isKeyDown(Input.KEY_D))
+        if (input.isKeyDown(Input.KEY_D) && gc.getWidth() >= this.position.x + speed * delta)
         {
             this.position.x += speed * delta;
+            try
+            {
+                GameClient.send_to_server.writeUTF("x:" + position.x+ ", Y:" + position.y);
+            } catch (IOException e) {
+                System.out.println("Server not found.");
+            }
         }
-        else if (input.isKeyDown(Input.KEY_A))
+        else if (input.isKeyDown(Input.KEY_A) && 0 <= this.position.x + speed * delta)
         {
             this.position.x -= speed * delta;
         }
 
-        if (input.isKeyDown(Input.KEY_W))
+        if (input.isKeyDown(Input.KEY_W) && 0 <= this.position.y + speed * delta)
         {
             this.position.y -= speed * delta;
         }
-        else if (input.isKeyDown(Input.KEY_S))
+        else if (input.isKeyDown(Input.KEY_S) && gc.getHeight() >= this.position.y + speed * delta)
         {
             this.position.y += speed * delta;
         }
@@ -74,7 +93,7 @@ public class Ship{
         while (++i < shots.size())
         {
             Bullet shot = shots.get(i);
-            if (shot.position.x > gc.getWidth() || shot.position.y > gc.getHeight() || shot.position.x < 0 || shot.position.y < 0)
+            if (shot.position.x > gc.getWidth() || shot.position.y > gc.getHeight() || shot.position.x < - 10 || shot.position.y < - 10)
             {
                 shots.remove(i);
             }
@@ -91,7 +110,7 @@ public class Ship{
         shots.add(new Bullet(this.position.x, this.position.y, this.rotation, true, 10f));
     }
 
-    public void Draw(Graphics g)
+    public void render(Graphics g)
     {
         texture.drawCentered(position.getX(), position.getY());
 

@@ -1,6 +1,5 @@
 package com.spacelapse;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,14 +7,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 
 import javax.swing.event.EventListenerList;
-import java.awt.event.ActionListener;
-import java.util.concurrent.Callable;
 
 public class TextButton{
-    /* TODO: button hover ()
-    *  TODO: button press ()
+    /* TODO: button hover (X)
+    *  TODO: button press (X)
     *  TODO: button audio ()
-    *  TODO: button color ()
+    *  TODO: button color (X)
     *  TODO: button render (X)
     * */
 
@@ -47,7 +44,7 @@ public class TextButton{
                 g.setColor(this.hoverColor);
                 if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
                 {
-
+                    fireMyEvent(new ClickEvent(this));
                 }
             }
         }
@@ -72,17 +69,17 @@ public class TextButton{
     /* Event listener */
     protected EventListenerList listenerList = new EventListenerList();
 
-    public void addMyEventListener(ClickEventListener listener) {
+    public void addOnClickEventListener(ClickEventListener listener) {
         listenerList.add(ClickEventListener.class, listener);
     }
-    public void removeMyEventListener(ClickEventListener listener) {
+    public void removeOnClickEventListener(ClickEventListener listener) {
         listenerList.remove(ClickEventListener.class, listener);
     }
     void fireMyEvent(ClickEvent evt) {
         Object[] listeners = listenerList.getListenerList();
         for (int i = 0; i < listeners.length; i = i+2){
             if (listeners[i] == ClickEventListener.class) {
-                ((ClickEventListener) listeners[i+1]).myEventOccurred(evt);
+                ((ClickEventListener) listeners[i+1]).onClickEvent(evt);
             }
         }
     }

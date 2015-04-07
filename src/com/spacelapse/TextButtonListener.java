@@ -12,5 +12,5 @@ class ClickEvent extends EventObject {
 }
 
 interface ClickEventListener extends EventListener {
-    public void myEventOccurred(ClickEvent evt);
+    public void onClickEvent(ClickEvent evt);
 }

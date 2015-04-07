@@ -7,16 +7,18 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Game extends StateBasedGame {
 
     public static final String GameName = "Space Lapse";
-    public static final double VersionNumber = 0.01;
+    public static final double VersionNumber = 0.02;
 
     // States
     public static final int mainmenu = 0;
-    public static final int survival = 1;
+    public static final int settings = 1;
+    public static final int survival = 2;
 
     public Game()
     {
         super(GameName + " Version: " + VersionNumber);
         this.addState(new MainMenu(mainmenu));
+        this.addState(new Settings(settings));
         this.addState(new Survival(survival));
     }
 
@@ -24,22 +26,6 @@ public class Game extends StateBasedGame {
     {
         this.getState(mainmenu).init(gc, this);
         this.enterState(mainmenu);
-    }
-
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
-    {
-
-    }
-
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
-    {
-        Input input = gc.getInput();
-    }
-
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
-    {
-        // Draws the scene
-        g.drawString("Space Lapse", 30, 30);
     }
 
     public static void main(String[] arguments)

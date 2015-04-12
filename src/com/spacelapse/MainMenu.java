@@ -3,6 +3,7 @@ package com.spacelapse;
 
 import java.io.File;
 
+import com.spacelapse.UI.TextInput;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -16,6 +17,7 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class MainMenu extends BasicGameState {
@@ -40,19 +42,23 @@ public class MainMenu extends BasicGameState {
     private TextButton settings;
     private TextButton quitgame;
 
-    public MainMenu(int state)
-    {
+    // Inputs
+    private TextInput port;
 
-    }
+    /** Images **/
+    private static Image texture;
+    private static Image bulletTexture;
 
-    public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException
-    {
+    public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
         midScreen = new Vector2f(gc.getWidth() / 2, gc.getHeight() / 2);
         awtfont = new java.awt.Font("Impact", Font.PLAIN, 30);
         font = new TrueTypeFont(awtfont, true);
         awtfontbig = new java.awt.Font("Impact", Font.PLAIN, 40);
         fontbig = new TrueTypeFont(awtfontbig, true);
-        ship = new Ship(new Vector2f(100 ,100), new Image("data/playerships/Enforcer/Enforcer_idle_128x.png", false), 0.5f);
+        ship = new Ship(new Vector2f(100 ,100), 0.5f);
+        /** Setup images **/
+        texture = new Image("data/playerships/Enforcer/Enforcer_idle_128x.png", false);
+        bulletTexture = new Image("data/bullets/bullet01_tiny2.png", false);
         MainMenuParticleSystem();
 
 
@@ -64,12 +70,12 @@ public class MainMenu extends BasicGameState {
         settings = new TextButton("Settings", 200, 280, 120, 40, color, hovercolor);
         quitgame = new TextButton("Quit Game", 200, 320, 120, 40, color, hovercolor);
 
+        // Inputs
+        port = new TextInput();
+
         hostgame.addOnClickEventListener(new ClickEventListener() {
             @Override
             public void onClickEvent(ClickEvent evt) {
-                //GameServer gs = new GameServer("localhost", 8976);
-                //gs.start();
-
                 GameClient gameclient = new GameClient();
                 gameclient.JoinGame("localhost", 8976);
                 sbg.enterState(2); // Enter Host State
@@ -98,40 +104,34 @@ public class MainMenu extends BasicGameState {
         });
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
-    {
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
         system2.render();
         system.render();
         Input input = gc.getInput();
-        g.setBackground(Color.darkGray.darker(0.6f));
+        graphics.setBackground(Color.darkGray.darker(0.6f));
 
         // Render the ship
-        ship.render(g);
-
-        // Tiling code
-        //for(int x = 200; x < 600; x += 32){
-        //    for(int y = 300; y < 397; y += 32){
-        //        wallImage.draw(x,y);
-        //    }
-        //}
+        ship.render(graphics, texture, bulletTexture);
 
 
-        g.setFont(fontbig);
-        g.drawString("Space Lapse", midScreen.x - 370, 100);
-        g.setColor(Color.white);
-        g.setFont(font);
+        graphics.setFont(fontbig);
+        graphics.drawString("Space Lapse", midScreen.x - 370, 100);
+        graphics.setColor(Color.white);
+        graphics.setFont(font);
         // Render the buttons
-        hostgame.render(gc, g);
-        joingame.render(gc, g);
-        settings.render(gc, g);
-        quitgame.render(gc, g);
+        hostgame.render(gc, graphics);
+        joingame.render(gc, graphics);
+        settings.render(gc, graphics);
+        quitgame.render(gc, graphics);
+
+        // Render the textinputs
+        //port.render(gc, graphics);
     }
 
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
-    {
-        Input input = gc.getInput();
+    public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
+        Input input = gameContainer.getInput();
         // Feed all the classes with the input and the delta
-        ship.Controller(gc, delta);
+        ship.Controller(gameContainer, delta, texture);
 
 
 
@@ -164,6 +164,10 @@ public class MainMenu extends BasicGameState {
         }
 
         system.setBlendingMode(ParticleSystem.BLEND_COMBINE);
+    }
+
+    public MainMenu(int state) {
+
     }
 
     public int getID()

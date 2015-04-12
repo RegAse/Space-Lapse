@@ -22,8 +22,7 @@ public class GameServer extends Thread {
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
             socket = new ServerSocket(this.port);
         } catch (IOException e) {
@@ -32,8 +31,7 @@ public class GameServer extends Thread {
         System.out.println("Server Started");
 
         // Always listen for a new connection
-        while (true)
-        {
+        while (true) {
             try {
                 Socket new_connection = socket.accept();
                 sockets.add(new_connection);

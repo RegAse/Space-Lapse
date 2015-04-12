@@ -1,5 +1,6 @@
 package com.spacelapse;
 
+import com.google.gson.Gson;
 import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
@@ -12,63 +13,47 @@ import java.util.ArrayList;
 
 public class Ship{
 
+    public static int ids = 0;
+    public int id;
     private Vector2f position;
-    private Image texture;
-    private Image bullet01;
     private float speed;
     private float rotation;
+    private boolean hasMoved = false;
 
     private ArrayList<Bullet> shots;
-    private float shotspeed = 0.8f;
-    private static int default_bullet_delay = 10;
-    private static int time = 0;
+    private float shotSpeed = 0.8f;
+    private int defaultBulletDelay = 200;
+    private int time = 0;
 
-    public Ship(Vector2f position, Image texture, float speed) throws SlickException
-    {
-        this.position = position;
-        this.texture = texture;
-        this.speed = speed;
-        this.rotation = 0;
-        this.shots = new ArrayList<Bullet>();
-        this.bullet01 = new Image("data/bullets/bullet01_tiny.png", false);
-    }
-
-    public Ship(Vector2f position, float speed) throws SlickException
-    {
+    public Ship(Vector2f position, float speed) throws SlickException {
         this.position = position;
         this.speed = speed;
         this.rotation = 0;
         this.shots = new ArrayList<Bullet>();
-        //this.bullet01 = new Image("data/bullets/bullet01_tiny.png", false);
+        this.id = ids;
+        ids++;
     }
 
-    public void Controller(GameContainer gc, int delta) throws SlickException
-    {
+    public void Controller(GameContainer gc, int delta, Image texture) throws SlickException {
         Input input = gc.getInput();
 
         /* Basic movement code */
-        if (input.isKeyDown(Input.KEY_D) && gc.getWidth() >= this.position.x + speed * delta)
-        {
+        if (input.isKeyDown(Input.KEY_D) && gc.getWidth() >= this.position.x + speed * delta) {
             this.position.x += speed * delta;
-            try
-            {
-                GameClient.send_to_server.writeUTF("x:" + position.x+ ", Y:" + position.y);
-            } catch (IOException e) {
-                System.out.println("Server not found.");
-            }
+            hasMoved = true;
         }
-        else if (input.isKeyDown(Input.KEY_A) && 0 <= this.position.x + speed * delta)
-        {
+        else if (input.isKeyDown(Input.KEY_A) && 0 <= this.position.x + speed * delta) {
             this.position.x -= speed * delta;
+            hasMoved = true;
         }
 
-        if (input.isKeyDown(Input.KEY_W) && 0 <= this.position.y + speed * delta)
-        {
+        if (input.isKeyDown(Input.KEY_W) && 0 <= this.position.y + speed * delta) {
             this.position.y -= speed * delta;
+            hasMoved = true;
         }
-        else if (input.isKeyDown(Input.KEY_S) && gc.getHeight() >= this.position.y + speed * delta)
-        {
+        else if (input.isKeyDown(Input.KEY_S) && gc.getHeight() >= this.position.y + speed * delta) {
             this.position.y += speed * delta;
+            hasMoved = true;
         }
 
         /* Code for rotation towards mouse */
@@ -78,30 +63,29 @@ public class Ship{
         rotation = (float) Math.toDegrees(Math.atan2(ydist, xdist));
         texture.setRotation(rotation + 90f);
 
-        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
-        {
+        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
             time -= delta;
-            if (time <= 0)
-            {
+            if (time <= 0) {
                 Shoot();
-                time = default_bullet_delay;
+                time = defaultBulletDelay;
             }
         }
 
         // Add force to shots
         int i = - 1;
-        while (++i < shots.size())
-        {
+        while (++i < shots.size()) {
             Bullet shot = shots.get(i);
-            if (shot.position.x > gc.getWidth() || shot.position.y > gc.getHeight() || shot.position.x < - 10 || shot.position.y < - 10)
-            {
+            if (shot.position.x > gc.getWidth() || shot.position.y > gc.getHeight() || shot.position.x < - 10 || shot.position.y < - 10) {
                 shots.remove(i);
             }
-            else
-            {
-                shot.position.x += shotspeed * Math.sin((shot.direction * Math.PI / 180) + 90f) * delta;
-                shot.position.y += shotspeed * Math.cos((shot.direction * Math.PI / 180) - 90f) * delta;
+            else {
+                shot.position.x += shotSpeed * Math.sin((shot.direction * Math.PI / 180) + 90f) * delta;
+                shot.position.y += shotSpeed * Math.cos((shot.direction * Math.PI / 180) - 90f) * delta;
             }
+        }
+        if (GameClient.isInitialized && hasMoved) {
+            sendData();
+            hasMoved = false;
         }
     }
 
@@ -110,25 +94,26 @@ public class Ship{
         shots.add(new Bullet(this.position.x, this.position.y, this.rotation, true, 10f));
     }
 
-    public void render(Graphics g)
-    {
+    public void render(Graphics graphics, Image texture, Image bulletTexture) {
         texture.drawCentered(position.getX(), position.getY());
 
-        DrawShots();
-        g.drawString("Shots: " + shots.size(), 20, 20);
+        renderShots(bulletTexture);
     }
 
-    public void DrawUI()
-    {
-        // some user interface shit
+    private void renderShots(Image bullet) {
+        for (Bullet shot : shots) {
+            bullet.setRotation(shot.direction);
+            bullet.drawCentered(shot.position.x, shot.position.y);
+        }
     }
 
-    private void DrawShots()
-    {
-        for (Bullet shot : shots)
-        {
-            bullet01.setRotation(shot.direction);
-            bullet01.draw(shot.position.x, shot.position.y);
+    public void sendData() {
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            GameClient.send_to_server.writeUTF(json);
+        } catch (IOException e) {
+            System.out.println("Server not found.");
         }
     }
 }

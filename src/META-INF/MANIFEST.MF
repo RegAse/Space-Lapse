@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: -Djava.library.path=libs/
+Main-Class: com.spacelapse.Game
+

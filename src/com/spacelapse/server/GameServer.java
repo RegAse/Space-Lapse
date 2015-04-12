@@ -17,37 +17,54 @@ import java.util.Timer;
 
 public class GameServer extends BasicGame{
 
-    public static float serverVersion = 0.01f;
-    private static String ip = "localhost";
-    private static int port = 8976;
+    /**
+     * Server variables
+     */
+    public static double versionNumber = 0.12;
+    private static String ipAddress;
+    private static int portNumber = 8976;
     private static ServerSocket socket;
-    private static ArrayList<Socket> sockets = new ArrayList<Socket>();
+    private static ArrayList<Socket> connectedSockets = new ArrayList<Socket>();
 
-    private static Timer heartBeatTimer = new Timer();
-    private static int heartBeatInterval = 2; // Seconds
-
-    /* Game variables */
-    // Player ships
-    private static ArrayList<Ship> playerships;
+    /**
+     * Game variables
+     */
+    private static ArrayList<Ship> ships;
 
     public GameServer()
     {
-        super("Server Version: " + serverVersion);
+        super("Server Version: " + versionNumber);
+    }
+
+    @Override
+    public void init(GameContainer gameContainer) throws SlickException
+    {
+        ships = new ArrayList<Ship>();
+    }
+
+    @Override
+    public void update(GameContainer gameContainer, int i) throws SlickException {
+
+    }
+
+    @Override
+    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+
     }
 
     public static void main(String[] arguments) throws SlickException {
         System.out.println("Server setting up... ");
-        System.out.println("Server Version: " + serverVersion);
-        Setup();
-        SetupHeartBeat();
+        System.out.println("Server Version: " + versionNumber);
+        setupServer();
+        //SetupHeartBeat();
 
         // Print the connection status
-        ConnectionsStatus();
+        connectionsStatus();
 
         Thread t = new Thread(new Runnable() {
             public void run()
             {
-                ListenForNewConnection();
+                listenForNewConnection();
             }
         });
         t.start();
@@ -66,117 +83,86 @@ public class GameServer extends BasicGame{
         }
     }
 
-    public static void Setup()
-    {
+    public static void setupServer() {
         try {
-            socket = new ServerSocket(port);
+            socket = new ServerSocket(portNumber);
         } catch (IOException e) {
             System.out.println("Error while trying to create ServerSocket");
         }
         System.out.println("Server Started");
     }
 
-    public static void ConnectionsStatus()
+    public static void connectionsStatus()
     {
-        System.out.println("Connections: " + sockets.size());
+        System.out.println("Connections: " + connectedSockets.size());
     }
 
-    public static void ListenForNewConnection()
-    {
-        try {
-            Socket new_connection = socket.accept();
-            sockets.add(new_connection);
-            System.out.println("Connection established with: " + new_connection.getInetAddress());
-            ConnectionsStatus();
+    public static void listenForNewConnection() {
+       while(true)
+       {
+           try {
+               Socket new_connection = socket.accept();
+               connectedSockets.add(new_connection);
+               System.out.println("Connection established with: " + new_connection.getInetAddress());
+               connectionsStatus();
 
-            DataInputStream receive_from_client = new DataInputStream(new_connection.getInputStream());
+               DataInputStream receive_from_client = new DataInputStream(new_connection.getInputStream());
 
-            String firstMessage = receive_from_client.readUTF();
-            System.out.println("GameServer: " + firstMessage);
+               String firstMessage = receive_from_client.readUTF();
 
-            // Start the receive from client in another thread
-            Thread t = new Thread(new Runnable() {
-                public void run()
-                {
-                    try {
-                        newPlayerShip();
-                    } catch (SlickException e) {
-                        e.printStackTrace();
-                    }
-                    ListenToClient(new_connection, receive_from_client);
-                }
-            });
-            t.start();
-        } catch (IOException e) {
-            System.out.println("Connection to pending client failed.");
-        }
+               //Send the id of the ship he can control
+               DataOutputStream send_to_client = new DataOutputStream(new_connection.getOutputStream());
+               send_to_client.writeInt(Ship.ids);
 
-        // Wait for another connection
-        ListenForNewConnection();
+               System.out.println("GameServer: " + firstMessage);
+
+               // Start the receive from client in another thread
+               Thread t = new Thread(new Runnable() {
+                   public void run() {
+                       try {
+                           newPlayerShip();
+                       } catch (SlickException e) {
+                           e.printStackTrace();
+                       }
+                       listenToClient(new_connection, receive_from_client);
+                   }
+               });
+               t.start();
+           } catch (IOException e) {
+               System.out.println("Connection to pending client failed.");
+           }
+       }
     }
 
-    public static void ListenToClient(Socket connection, DataInputStream receive_from_client)
-    {
-        System.out.println("Hey");
-        System.out.println("PlayerCount: " + sockets.size());
-        try
+    public static void listenToClient(Socket connection, DataInputStream receive_from_client) {
+        while(true)
         {
-            System.out.println(receive_from_client.readUTF());
-        } catch (IOException e)
-        {
-            System.out.println("Lost Connection");
-        }
-
-
-        // Wait for another message
-        ListenToClient(connection, receive_from_client);
-    }
-
-    /**
-     * HeartBeat for experiment purposes
-     **/
-    public static void SetupHeartBeat()
-    {
-        heartBeatTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                HeartBeat();
-            }
-        }, heartBeatInterval * 1000, heartBeatInterval * 1000);
-    }
-
-    public static void HeartBeat()
-    {
-        int i = - 1;
-        while (++i < sockets.size())
-        {
-            try {
-                DataOutputStream send_to_client = new DataOutputStream(sockets.get(i).getOutputStream());
-                send_to_client.writeUTF("Heartbeat");
+            try
+            {
+                sendJsonToAll(receive_from_client.readUTF());
 
             } catch (IOException e)
             {
-                /* I lost connection to the client */
-                sockets.remove(i);
-                ConnectionsStatus();
+                System.out.println("Lost Connection");
+                connectedSockets.remove(connection);
+                connectionsStatus();
+                break;
             }
-
         }
     }
 
-    public static void SendJsonToAll(String json)
-    {
+    public static void sendJsonToAll(String json) {
         int i = - 1;
-        while(++i < sockets.size())
+        while(++i < connectedSockets.size())
         {
             try {
-                DataOutputStream send_to_client = new DataOutputStream(sockets.get(i).getOutputStream());
+                DataOutputStream send_to_client = new DataOutputStream(connectedSockets.get(i).getOutputStream());
                 send_to_client.writeUTF(json);
             } catch (IOException e)
             {
                 /* I lost connection to the client */
-                sockets.remove(i);
-                ConnectionsStatus();
+                connectedSockets.remove(i);
+                connectionsStatus();
             }
         }
     }
@@ -184,29 +170,46 @@ public class GameServer extends BasicGame{
     /**
      * Game setup functions
      **/
-    public static void newPlayerShip() throws SlickException
-    {
-        Ship ship = new Ship(new Vector2f(100, 100), 10f);
-        playerships.add(ship);
+    public static void newPlayerShip() throws SlickException {
+        Ship ship = new Ship(new Vector2f(100, 100), 1.5f);
+        ships.add(ship);
 
         Gson gson = new Gson();
         String json = gson.toJson(ship);
-        SendJsonToAll(json);
+        sendJsonToAll(json);
     }
 
-    @Override
-    public void init(GameContainer gameContainer) throws SlickException
-    {
-        playerships = new ArrayList<Ship>();
+    /**
+     * HeartBeat for experiment purposes
+     **/
+
+    private static Timer heartBeatTimer = new Timer();
+    private static int heartBeatInterval = 2; // Seconds
+
+    public static void setupHeartBeat() {
+        heartBeatTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                heartBeat();
+            }
+        }, heartBeatInterval * 1000, heartBeatInterval * 1000);
     }
 
-    @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public static void heartBeat() {
+        int i = - 1;
+        while (++i < connectedSockets.size())
+        {
+            try {
+                DataOutputStream send_to_client = new DataOutputStream(connectedSockets.get(i).getOutputStream());
+                send_to_client.writeUTF("Heartbeat");
 
-    }
+            } catch (IOException e)
+            {
+                /* I lost connection to the client */
+                connectedSockets.remove(i);
+                connectionsStatus();
+            }
 
-    @Override
-    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-
+        }
     }
 }

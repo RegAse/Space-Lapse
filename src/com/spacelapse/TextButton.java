@@ -22,6 +22,7 @@ public class TextButton{
     private float height;
     private Color color;
     private Color hoverColor;
+    private boolean _pressed;
 
     public TextButton(String content, float x, float y, float width, float height, Color color, Color hoverColor)
     {
@@ -41,9 +42,14 @@ public class TextButton{
         {
             if (input.getMouseY() >= position.y && input.getMouseY() <= position.y + height)
             {
-                g.setColor(this.hoverColor);
-                if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+                if (input.isMouseButtonDown(input.MOUSE_LEFT_BUTTON))
                 {
+                    _pressed = true;
+                }
+                g.setColor(this.hoverColor);
+                if (_pressed && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
+                {
+                    _pressed = false;
                     fireMyEvent(new ClickEvent(this));
                 }
             }

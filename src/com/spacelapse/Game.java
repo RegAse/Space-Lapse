@@ -33,7 +33,7 @@ public class Game extends StateBasedGame {
         try
         {
             AppGameContainer app = new AppGameContainer(new Game());
-            app.setDisplayMode(1280, 720, false);
+            app.setDisplayMode(800, 600, false);
             app.setShowFPS(true); // set to false later
             app.setAlwaysRender(true);
             app.start();

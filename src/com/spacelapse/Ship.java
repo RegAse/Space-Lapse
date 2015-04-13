@@ -1,14 +1,10 @@
 package com.spacelapse;
 
 import com.google.gson.Gson;
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class Ship{
@@ -18,11 +14,11 @@ public class Ship{
     private Vector2f position;
     private float speed;
     private float rotation;
-    private boolean hasMoved = false;
+    private boolean hasChanged = false;
 
     private ArrayList<Bullet> shots;
     private float shotSpeed = 0.8f;
-    private int defaultBulletDelay = 200;
+    private int defaultBulletDelay = 100;
     private int time = 0;
 
     public Ship(Vector2f position, float speed) throws SlickException {
@@ -34,26 +30,27 @@ public class Ship{
         ids++;
     }
 
-    public void Controller(GameContainer gc, int delta, Image texture) throws SlickException {
-        Input input = gc.getInput();
+    public void Controller(GameContainer gameContainer, int delta, Image texture) throws SlickException {
+        hasChanged = false;
+        Input input = gameContainer.getInput();
 
         /* Basic movement code */
-        if (input.isKeyDown(Input.KEY_D) && gc.getWidth() >= this.position.x + speed * delta) {
+        if (input.isKeyDown(Input.KEY_D) && gameContainer.getWidth() >= this.position.x + speed * delta) {
             this.position.x += speed * delta;
-            hasMoved = true;
+            hasChanged = true;
         }
         else if (input.isKeyDown(Input.KEY_A) && 0 <= this.position.x + speed * delta) {
             this.position.x -= speed * delta;
-            hasMoved = true;
+            hasChanged = true;
         }
 
         if (input.isKeyDown(Input.KEY_W) && 0 <= this.position.y + speed * delta) {
             this.position.y -= speed * delta;
-            hasMoved = true;
+            hasChanged = true;
         }
-        else if (input.isKeyDown(Input.KEY_S) && gc.getHeight() >= this.position.y + speed * delta) {
+        else if (input.isKeyDown(Input.KEY_S) && gameContainer.getHeight() >= this.position.y + speed * delta) {
             this.position.y += speed * delta;
-            hasMoved = true;
+            hasChanged = true;
         }
 
         /* Code for rotation towards mouse */
@@ -68,24 +65,30 @@ public class Ship{
             if (time <= 0) {
                 Shoot();
                 time = defaultBulletDelay;
+                hasChanged = true;
             }
         }
 
+        if (GameClient.isInitialized && hasChanged) {
+            sendData();
+        }
+    }
+
+    public void addForceToBullets(GameContainer gameContainer, int delta)
+    {
         // Add force to shots
         int i = - 1;
         while (++i < shots.size()) {
             Bullet shot = shots.get(i);
-            if (shot.position.x > gc.getWidth() || shot.position.y > gc.getHeight() || shot.position.x < - 10 || shot.position.y < - 10) {
+            if (shot.position.x > gameContainer.getWidth() || shot.position.y > gameContainer.getHeight() || shot.position.x < - 10 || shot.position.y < - 10) {
                 shots.remove(i);
             }
             else {
-                shot.position.x += shotSpeed * Math.sin((shot.direction * Math.PI / 180) + 90f) * delta;
-                shot.position.y += shotSpeed * Math.cos((shot.direction * Math.PI / 180) - 90f) * delta;
+                // shot.position.x += shotSpeed * Math.sin((shot.direction * Math.PI / 180) + 90f);
+                //shot.position.y += shotSpeed * Math.cos((shot.direction * Math.PI / 180) + 90f);
+                shot.position.x -= (shotSpeed * Math.sin(Math.toRadians(shot.direction) - 190f)) * delta;
+                shot.position.y += (shotSpeed * Math.cos(Math.toRadians(shot.direction) - 190f)) * delta;
             }
-        }
-        if (GameClient.isInitialized && hasMoved) {
-            sendData();
-            hasMoved = false;
         }
     }
 
@@ -95,6 +98,7 @@ public class Ship{
     }
 
     public void render(Graphics graphics, Image texture, Image bulletTexture) {
+        graphics.drawString(Integer.toString(this.id), position.getX(), position.getY() - (texture.getHeight()/ 2) - 20);
         texture.drawCentered(position.getX(), position.getY());
 
         renderShots(bulletTexture);

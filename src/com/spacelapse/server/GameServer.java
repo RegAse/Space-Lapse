@@ -37,8 +37,7 @@ public class GameServer extends BasicGame{
     }
 
     @Override
-    public void init(GameContainer gameContainer) throws SlickException
-    {
+    public void init(GameContainer gameContainer) throws SlickException {
         ships = new ArrayList<Ship>();
     }
 
@@ -98,8 +97,7 @@ public class GameServer extends BasicGame{
     }
 
     public static void listenForNewConnection() {
-       while(true)
-       {
+       while(true) {
            try {
                Socket new_connection = socket.accept();
                connectedSockets.add(new_connection);
@@ -135,8 +133,7 @@ public class GameServer extends BasicGame{
     }
 
     public static void listenToClient(Socket connection, DataInputStream receive_from_client) {
-        while(true)
-        {
+        while(true) {
             try
             {
                 sendJsonToAll(receive_from_client.readUTF());
@@ -153,8 +150,7 @@ public class GameServer extends BasicGame{
 
     public static void sendJsonToAll(String json) {
         int i = - 1;
-        while(++i < connectedSockets.size())
-        {
+        while(++i < connectedSockets.size()) {
             try {
                 DataOutputStream send_to_client = new DataOutputStream(connectedSockets.get(i).getOutputStream());
                 send_to_client.writeUTF(json);
@@ -197,8 +193,7 @@ public class GameServer extends BasicGame{
 
     public static void heartBeat() {
         int i = - 1;
-        while (++i < connectedSockets.size())
-        {
+        while (++i < connectedSockets.size()) {
             try {
                 DataOutputStream send_to_client = new DataOutputStream(connectedSockets.get(i).getOutputStream());
                 send_to_client.writeUTF("Heartbeat");

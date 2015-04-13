@@ -42,6 +42,9 @@ public class Survival extends BasicGameState {
             if (ships.get(i).id == my_id){
                 ships.get(i).Controller(gameContainer, delta, texture);
             }
+
+            /** Add force to all bullets  **/
+            ships.get(i).addForceToBullets(gameContainer, delta);
         }
     }
 

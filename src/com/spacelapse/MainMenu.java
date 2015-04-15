@@ -4,6 +4,9 @@ package com.spacelapse;
 import java.io.File;
 
 import com.spacelapse.UI.TextInput;
+import com.spacelapse.ship.Enforcer;
+import com.spacelapse.ship.Fighter;
+import com.spacelapse.ship.Ship;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -13,28 +16,18 @@ import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.awt.Font;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class MainMenu extends BasicGameState {
 
     public Vector2f midScreen;
-    public java.awt.Font awtfont;
-    public static TrueTypeFont font;
-    public java.awt.Font awtfontbig;
-    public static TrueTypeFont fontbig;
 
     // Particle System
     private ParticleSystem system;
     private ParticleSystem system2;
     private int val = 100;
-
-    // Ship flying around
-    private Ship ship;
 
     // Buttons
     private TextButton hostgame;
@@ -45,22 +38,16 @@ public class MainMenu extends BasicGameState {
     // Inputs
     private TextInput port;
 
-    /** Images **/
-    private static Image texture;
-    private static Image bulletTexture;
+    /** Fighter ship tests **/
+    Fighter fig;
+    Enforcer fig2;
 
     public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
         midScreen = new Vector2f(gc.getWidth() / 2, gc.getHeight() / 2);
-        awtfont = new java.awt.Font("Impact", Font.PLAIN, 30);
-        font = new TrueTypeFont(awtfont, true);
-        awtfontbig = new java.awt.Font("Impact", Font.PLAIN, 40);
-        fontbig = new TrueTypeFont(awtfontbig, true);
-        ship = new Ship(new Vector2f(100 ,100), 0.5f);
-        /** Setup images **/
-        texture = new Image("data/playerships/Enforcer/Enforcer_idle_128x.png", false);
-        bulletTexture = new Image("data/bullets/bullet01_tiny2.png", false);
-        MainMenuParticleSystem();
+        fig = new Fighter(50, 50, 0.5f);
+        fig2 = new Enforcer(100, 100, 0.5f);
 
+        MainMenuParticleSystem();
 
         // Buttons
         Color color = Color.white;
@@ -76,9 +63,10 @@ public class MainMenu extends BasicGameState {
         hostgame.addOnClickEventListener(new ClickEventListener() {
             @Override
             public void onClickEvent(ClickEvent evt) {
+                // TODO Start the server ()
                 GameClient gameclient = new GameClient();
                 gameclient.JoinGame("localhost", 8976);
-                sbg.enterState(2); // Enter Host State
+                sbg.enterState(2); // Enter Join State
             }
         });
         joingame.addOnClickEventListener(new ClickEventListener() {
@@ -111,13 +99,14 @@ public class MainMenu extends BasicGameState {
         graphics.setBackground(Color.darkGray.darker(0.6f));
 
         // Render the ship
-        ship.render(graphics, texture, bulletTexture);
+        //ship.render(gc, graphics, texture, bulletTexture);
+        fig.render(gc, graphics);
+        fig2.render(gc, graphics);
 
-
-        graphics.setFont(fontbig);
+        //graphics.setFont(fontbig);
         graphics.drawString("Space Lapse", midScreen.x - 370, 100);
         graphics.setColor(Color.white);
-        graphics.setFont(font);
+        //graphics.setFont(font);
         // Render the buttons
         hostgame.render(gc, graphics);
         joingame.render(gc, graphics);
@@ -125,21 +114,25 @@ public class MainMenu extends BasicGameState {
         quitgame.render(gc, graphics);
 
         // Render the textinputs
-        //port.render(gc, graphics);
+        // port.render(gc, graphics);
     }
 
     public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gameContainer.getInput();
-        // Feed all the classes with the input and the delta
-        ship.Controller(gameContainer, delta, texture);
 
-
+        fig2.Controller(gameContainer, delta);
+        fig2.rotateTowardsMouse(gameContainer);
+        fig2.addForceToBullets(gameContainer, delta);
 
         // Particle System
         system.update(delta);
         system2.update(delta);
     }
 
+    /**
+     * Main Menu particle effect
+     * @throws SlickException
+     */
     public void MainMenuParticleSystem() throws SlickException
     {
         Image image = new Image("data/bullets/bullet01.png", false);

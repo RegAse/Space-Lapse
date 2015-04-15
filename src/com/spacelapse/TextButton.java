@@ -24,8 +24,7 @@ public class TextButton{
     private Color hoverColor;
     private boolean _pressed;
 
-    public TextButton(String content, float x, float y, float width, float height, Color color, Color hoverColor)
-    {
+    public TextButton(String content, float x, float y, float width, float height, Color color, Color hoverColor) {
         this.content = content;
         this.position = new Vector2f(x, y);
         this.width = width;
@@ -34,21 +33,16 @@ public class TextButton{
         this.hoverColor = hoverColor;
     }
 
-    public void render(GameContainer gc, Graphics g)
-    {
+    public void render(GameContainer gc, Graphics g) {
         g.setColor(color);
         Input input = gc.getInput();
-        if (input.getMouseX() >= position.x && input.getMouseX() <= position.x + width)
-        {
-            if (input.getMouseY() >= position.y && input.getMouseY() <= position.y + height)
-            {
-                if (input.isMouseButtonDown(input.MOUSE_LEFT_BUTTON))
-                {
+        if (input.getMouseX() >= position.x && input.getMouseX() <= position.x + width) {
+            if (input.getMouseY() >= position.y && input.getMouseY() <= position.y + height) {
+                if (input.isMouseButtonDown(input.MOUSE_LEFT_BUTTON)) {
                     _pressed = true;
                 }
                 g.setColor(this.hoverColor);
-                if (_pressed && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
-                {
+                if (_pressed && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
                     _pressed = false;
                     fireMyEvent(new ClickEvent(this));
                 }
@@ -83,7 +77,7 @@ public class TextButton{
     }
     void fireMyEvent(ClickEvent evt) {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = 0; i < listeners.length; i = i+2){
+        for (int i = 0; i < listeners.length; i = i+2) {
             if (listeners[i] == ClickEventListener.class) {
                 ((ClickEventListener) listeners[i+1]).onClickEvent(evt);
             }

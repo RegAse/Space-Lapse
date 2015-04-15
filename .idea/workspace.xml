@@ -2,11 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b4aa581-7876-4cf0-a2d4-8a5f2b58ac66" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/AI/AI.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/ship/Enforcer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/ship/Fighter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Fonts.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/GameClientSend.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Textures.java" />
+      <change type="DELETED" beforePath="C:\Users\Pro\Space Lapse\out\production\Space Lapse\com\spacelapse\Ship.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Pro\Space Lapse\src\com\spacelapse\GameServer.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Pro\Space Lapse\src\com\spacelapse\Ship.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/Game.class" afterPath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/Game.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/MainMenu.class" afterPath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/MainMenu.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/Survival.class" afterPath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/Survival.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/TextButton.class" afterPath="$PROJECT_DIR$/out/production/Space Lapse/com/spacelapse/TextButton.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/Game.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/GameClient.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/GameClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/Ship.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/Ship.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/MainMenu.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/MainMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/Settings.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/Settings.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/Survival.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/Survival.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/TextButton.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/TextButton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java" afterPath="$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/torch.xml" afterPath="$PROJECT_DIR$/data/torch.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Space Lapse.iws" />
@@ -35,87 +52,97 @@
       <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/spacelapse/MainMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
-              <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2261">
+              <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
               <folding>
-                <element signature="class#2531:2823" expanded="false" />
-                <element signature="class#2871:3164" expanded="false" />
-                <element signature="class#3212:3388" expanded="false" />
-                <element signature="class#3436:3591" expanded="false" />
-                <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+                <element signature="class#1911:2247" expanded="false" />
+                <element signature="class#2295:2588" expanded="false" />
+                <element signature="class#2636:2812" expanded="false" />
+                <element signature="e#2734#2735#0" expanded="true" />
+                <element signature="e#2801#2802#0" expanded="true" />
+                <element signature="class#2860:3015" expanded="false" />
+                <element signature="e#2958#2959#0" expanded="true" />
+                <element signature="e#3004#3005#0" expanded="true" />
+                <element signature="e#5448#5449#0" expanded="true" />
+                <element signature="e#5472#5473#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Survival.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Settings.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Settings.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850">
+              <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Fonts.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Fonts.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+              <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Survival.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Survival.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="100" max-vertical-offset="1003">
-              <caret line="37" column="93" selection-start-line="37" selection-start-column="93" selection-end-line="37" selection-end-column="93" />
+            <state vertical-scroll-proportion="0.54202896" vertical-offset="0" max-vertical-offset="867">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Textures.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Textures.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
               <folding>
-                <element signature="e#1672#1673#0" expanded="true" />
-                <element signature="e#1696#1697#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Game.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="833">
-              <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TextButton.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/TextButton.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5870504" vertical-offset="255" max-vertical-offset="1462">
-              <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameSession.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameSession.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-              <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Ship.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="2057">
-              <caret line="84" column="13" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2805">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2332#2333#0" expanded="true" />
+                <element signature="e#2429#2430#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bullet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Bullet.java">
+      <file leaf-file-name="Enforcer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Enforcer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
-              <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+              <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TextInput.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java">
+      <file leaf-file-name="Fighter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Fighter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="87" max-vertical-offset="782">
-              <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -126,8 +153,8 @@
       <file leaf-file-name="GameClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="393" max-vertical-offset="1445">
-              <caret line="23" column="66" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="1275">
+              <caret line="46" column="57" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -136,8 +163,8 @@
       <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1003" max-vertical-offset="3281">
-              <caret line="121" column="51" selection-start-line="121" selection-start-column="51" selection-end-line="121" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="3451">
+              <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -155,25 +182,36 @@
         <option value="$PROJECT_DIR$/src/com/spacelapse/Bullet.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/TextButtonListener.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/ParticleBag.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/Settings.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/JavaProcess.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/GameSession.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/GameServer.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/MainMenu.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/GameClient.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/Ship.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/Survival.java" />
-        <option value="$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/Game.java" />
         <option value="$PROJECT_DIR$/src/com/spacelapse/TextButton.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/GameClientSend.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/interfaces/Ship.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/Ship.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/entities/Entity.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/AI/AI.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/ImageLoader/Textures.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Fonts.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/Settings.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Textures.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/ship/Fighter.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/MainMenu.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/GameClient.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/ship/Enforcer.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java" />
+        <option value="$PROJECT_DIR$/src/com/spacelapse/Survival.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="173" />
-    <option name="width" value="1682" />
-    <option name="height" value="1040" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -198,6 +236,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -250,8 +290,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -486,7 +524,13 @@
       <option name="project" value="LOCAL" />
       <updated>1428876249840</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed TextButton 'hover press'">
+      <created>1428955673023</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1428955673023</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -510,23 +554,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="173" y="0" width="1682" height="1040" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32818532" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32303733" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3220697" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33976835" sideWeight="0.5025" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22341569" sideWeight="0.4975" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24181627" sideWeight="0.4975" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.103241295" sideWeight="0.49902534" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1359375" sideWeight="0.49902534" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32818532" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -536,7 +581,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32818532" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -556,11 +600,12 @@
     </option>
     <MESSAGE value="Added Server functionality&#10;Added gson" />
     <MESSAGE value="Multiplayer now works alot better" />
-    <option name="LAST_COMMIT_MESSAGE" value="Multiplayer now works alot better" />
+    <MESSAGE value="Fixed TextButton 'hover press'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed TextButton 'hover press'" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -569,43 +614,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="2040">
-          <caret line="45" column="40" selection-start-line="45" selection-start-column="40" selection-end-line="45" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="833">
-          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1258">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1275" max-vertical-offset="2482">
-          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
-          <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Settings.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
@@ -617,10 +625,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="178" max-vertical-offset="1343">
           <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -631,18 +636,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1478" max-vertical-offset="2057">
           <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="1054">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="7" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -651,11 +653,16 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -678,10 +685,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="578">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -692,11 +696,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1257" max-vertical-offset="2006">
           <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -712,11 +720,16 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -739,10 +752,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="578">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -753,11 +763,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1257" max-vertical-offset="2006">
           <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -773,11 +787,16 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1147" max-vertical-offset="2720">
           <caret line="84" column="21" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
           <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -786,10 +805,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="127" max-vertical-offset="612">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -800,11 +816,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2040">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -820,20 +840,29 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2209" max-vertical-offset="2771">
           <caret line="139" column="29" selection-start-line="139" selection-start-column="29" selection-end-line="139" selection-end-column="29" />
           <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2040">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -841,10 +870,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="612">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -860,11 +886,16 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -873,10 +904,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="29" max-vertical-offset="714">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -915,107 +943,170 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1292">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Settings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2326389" vertical-offset="36" max-vertical-offset="612">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
           <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/TextButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="804" max-vertical-offset="1360">
+          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1850#1851#0" expanded="false" />
+            <element signature="e#1889#1890#0" expanded="false" />
+            <element signature="e#1929#1930#0" expanded="false" />
+            <element signature="e#1967#1968#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameSession.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
-          <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
-          <folding>
-            <element signature="class#2531:2823" expanded="false" />
-            <element signature="class#2871:3164" expanded="false" />
-            <element signature="class#3212:3388" expanded="false" />
-            <element signature="class#3436:3591" expanded="false" />
-            <element signature="method#MainMenuParticleSystem#0;class#MainMenu#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/spacelapse/UI/TextInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="87" max-vertical-offset="782">
-          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="124" max-vertical-offset="748">
+          <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="393" max-vertical-offset="1445">
-          <caret line="23" column="66" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Ship.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="954" max-vertical-offset="2057">
-          <caret line="84" column="13" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1003" max-vertical-offset="3281">
-          <caret line="121" column="51" selection-start-line="121" selection-start-column="51" selection-end-line="121" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Survival.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="121" max-vertical-offset="1003">
-          <caret line="37" column="93" selection-start-line="37" selection-start-column="93" selection-end-line="37" selection-end-column="93" />
-          <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1696#1697#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="833">
-          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameClientSend.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/AI/AI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/TextButton.java">
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Textures.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5870504" vertical-offset="255" max-vertical-offset="1462">
-          <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2261">
+          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
+          <folding>
+            <element signature="class#1911:2247" expanded="false" />
+            <element signature="class#2295:2588" expanded="false" />
+            <element signature="class#2636:2812" expanded="false" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2801#2802#0" expanded="true" />
+            <element signature="class#2860:3015" expanded="false" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5472#5473#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Settings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/resourcemanager/Fonts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/GameClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="1275">
+          <caret line="46" column="57" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Fighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/server/GameServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1530" max-vertical-offset="3451">
+          <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2805">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2332#2333#0" expanded="true" />
+            <element signature="e#2429#2430#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/ship/Enforcer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/spacelapse/Survival.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54202896" vertical-offset="0" max-vertical-offset="867">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>

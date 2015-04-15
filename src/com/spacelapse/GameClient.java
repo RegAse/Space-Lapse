@@ -1,7 +1,8 @@
 package com.spacelapse;
 
 import com.google.gson.Gson;
-import org.lwjgl.Sys;
+import com.spacelapse.ship.Enforcer;
+import com.spacelapse.ship.Ship;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,25 +18,17 @@ public class GameClient extends Thread{
     @Override
     public void run() {
         System.out.println("Receive from server constantly");
-        while(true)
-        {
-            try
-            {
-                String srvmessage = receive_from_server.readUTF();
+        while(true) {
+            try {
+                String serverMessage = receive_from_server.readUTF();
 
                 // Ignore heartbeat messages let TCP take care of it
-                if (!srvmessage.equals("Heartbeat"))
-                {
-                    ProcessServerData(srvmessage);
+                if (!serverMessage.equals("Heartbeat")) {
+                    ProcessServerData(serverMessage);
                 }
             } catch (IOException e) {
                 System.out.println("Connection to the server has been lost");
-                // Somehow kill this thread
-                try {
-                    this.sleep(1000000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                break;
             }
         }
     }
@@ -65,20 +58,18 @@ public class GameClient extends Thread{
     /**
      * Process Data from server
      * */
-    public void ProcessServerData(String data)
-    {
+    public void ProcessServerData(String data) {
         Gson gson = new Gson();
-        Ship ship = gson.fromJson(data, Ship.class);
+        Ship ship = gson.fromJson(data, Enforcer.class);
         boolean f = false;
         for (int i = 0; i < Survival.ships.size(); i++) {
-            if (Survival.ships.get(i).id == ship.id)
-            {
+            if (Survival.ships.get(i).id == ship.id) {
                 Survival.ships.set(i, ship);
                 f = true;
                 break;
             }
         }
-        if (f == false){
+        if (f == false) {
             Survival.ships.add(ship);
         }
     }

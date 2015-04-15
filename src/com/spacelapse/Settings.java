@@ -21,6 +21,7 @@ public class Settings extends BasicGameState{
     {
         Color color = Color.white;
         Color hovercolor = Color.darkGray;
+
         // Buttons
         back = new TextButton("Back to Main Menu", 40, gc.getHeight() - 80, 230, 40, color, hovercolor);
         back.addOnClickEventListener(new ClickEventListener() {
@@ -31,13 +32,15 @@ public class Settings extends BasicGameState{
         });
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
+    public void render(GameContainer gameContainer, StateBasedGame sbg, Graphics graphics) throws SlickException
     {
-        g.setFont(MainMenu.fontbig);
-        g.drawString("Settings", 40, 40);
+        //graphics.setFont(MainMenu.fontbig);
+        graphics.drawString("Settings", 40, 40);
 
-        g.setFont(MainMenu.font);
-        back.render(gc, g);
+        //graphics.setFont(MainMenu.font);
+        graphics.drawString("Video", 60 , 100);
+        graphics.drawString("Audio", 60 , 140);
+        back.render(gameContainer, graphics);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException

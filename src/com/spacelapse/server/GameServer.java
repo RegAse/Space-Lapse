@@ -2,7 +2,9 @@ package com.spacelapse.server;
 
 
 import com.google.gson.Gson;
-import com.spacelapse.Ship;
+import com.spacelapse.ship.Enforcer;
+import com.spacelapse.ship.Fighter;
+import com.spacelapse.ship.Ship;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -42,8 +44,15 @@ public class GameServer extends BasicGame{
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-
+    public void update(GameContainer gameContainer, int delta) throws SlickException {
+        /*for (Ship ship1 : ships){
+            for (Ship ship2 : ships){
+                if (ship1.intersects(ship2))
+                {
+                    System.out.println("Intersected");
+                }
+            }
+        }*/
     }
 
     @Override
@@ -68,16 +77,14 @@ public class GameServer extends BasicGame{
         });
         t.start();
 
-        try
-        {
+        try {
             AppGameContainer app = new AppGameContainer(new GameServer());
             app.setDisplayMode(200, 140, false);
             app.setShowFPS(true); // set to false later
             app.setAlwaysRender(true);
             app.start();
         }
-        catch (SlickException e)
-        {
+        catch (SlickException e) {
             e.printStackTrace();
         }
     }
@@ -134,12 +141,18 @@ public class GameServer extends BasicGame{
 
     public static void listenToClient(Socket connection, DataInputStream receive_from_client) {
         while(true) {
-            try
-            {
-                sendJsonToAll(receive_from_client.readUTF());
+            try {
+                String data = receive_from_client.readUTF();
+                /*Gson gson = new Gson();
+                Ship ship = gson.fromJson(data, Ship.class);
+                for (int i = 0; i < ships.size(); i++) {
+                    if (ship.id == ships.get(i).id) {
+                        ships.set(i, ship);
+                    }
+                }*/
+                sendJsonToAll(data);
 
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println("Lost Connection");
                 connectedSockets.remove(connection);
                 connectionsStatus();
@@ -167,7 +180,7 @@ public class GameServer extends BasicGame{
      * Game setup functions
      **/
     public static void newPlayerShip() throws SlickException {
-        Ship ship = new Ship(new Vector2f(100, 100), 1.5f);
+        Enforcer ship = new Enforcer(100, 100, 0.5f);
         ships.add(ship);
 
         Gson gson = new Gson();
@@ -198,8 +211,7 @@ public class GameServer extends BasicGame{
                 DataOutputStream send_to_client = new DataOutputStream(connectedSockets.get(i).getOutputStream());
                 send_to_client.writeUTF("Heartbeat");
 
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 /* I lost connection to the client */
                 connectedSockets.remove(i);
                 connectionsStatus();

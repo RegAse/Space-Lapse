@@ -22,14 +22,12 @@ public class TextInput {
         graphics.setColor(Color.white);
         graphics.drawString(content, 100, 100);
 
-        if (count % 30 == 0 || wait)
-        {
+        if (count % 30 == 0 || wait) {
             wait = true;
             graphics.setColor(Color.white);
             graphics.drawLine(165,105,165,130);
             graphics.fillRect(165, 110, 1, 16);
-            if (wait && count % 450 == 0)
-            {
+            if (wait && count % 450 == 0) {
                 count = 0;
                 wait = false;
             }

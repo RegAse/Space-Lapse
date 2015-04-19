@@ -15,14 +15,17 @@ public class Response {
     public Enforcer enforcer;
     public Ship ship;
     public ArrayList<Ship> ships;
-    public int playerCount = 1;
+    public Integer playerCount = 1;
+    public Integer removeShip;
 
     /**
      * Constructors
      */
+    public Response(){}
     public Response(Enforcer ship) { this.enforcer = ship; }
     public Response(ArrayList<Ship> ships){ this.ships = ships; }
     public Response(Ship ship){ this.ship = ship; }
+    public void removeShip(int removeShipWithThisId){ this.removeShip = removeShipWithThisId; }
 
     /**
      * Send the data to the server

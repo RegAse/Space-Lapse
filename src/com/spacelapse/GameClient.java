@@ -1,18 +1,13 @@
 package com.spacelapse;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.spacelapse.ship.Enforcer;
 import com.spacelapse.ship.Ship;
-import org.lwjgl.Sys;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class GameClient extends Thread{
 
@@ -26,12 +21,12 @@ public class GameClient extends Thread{
      * @param port Port number
      */
     public void JoinGame(String ip, int port) {
-        Socket consock;
+        Socket connectionSocket;
         try {
-            consock = new Socket(ip, port);
+            connectionSocket = new Socket(ip, port);
 
-            send_to_server = new DataOutputStream(consock.getOutputStream());
-            receive_from_server = new DataInputStream(consock.getInputStream());
+            send_to_server = new DataOutputStream(connectionSocket.getOutputStream());
+            receive_from_server = new DataInputStream(connectionSocket.getInputStream());
             isInitialized = true;
 
             // Send hello message
@@ -94,7 +89,7 @@ public class GameClient extends Thread{
      * @param response object from client
      * @param field from the response object
      */
-    private void processField(Response response, Field field){
+    private void processField(Response response, Field field) {
         switch(field.getName()){
             case "enforcer":
                 Ship ship = response.enforcer;
@@ -113,6 +108,14 @@ public class GameClient extends Thread{
                 }
                 break;
             case "playerCount":
+                break;
+            case "removeShip":
+                int id = response.removeShip;
+                for (int i = 0; i < Survival.ships.size(); i++) {
+                    if (Survival.ships.get(i).id == id){
+                        Survival.ships.remove(i);
+                    }
+                }
                 break;
         }
     }

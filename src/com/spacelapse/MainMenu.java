@@ -44,8 +44,8 @@ public class MainMenu extends BasicGameState {
 
     public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
         midScreen = new Vector2f(gc.getWidth() / 2, gc.getHeight() / 2);
-        fig = new Fighter(50, 50, 0.5f);
-        fig2 = new Enforcer(100, 100, 0.5f);
+        fig = new Fighter(50, 50, 0.5f, 40f);
+        fig2 = new Enforcer(100, 100, 0.5f, 40f);
 
         MainMenuParticleSystem();
 

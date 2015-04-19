@@ -10,8 +10,8 @@ public class Fighter extends Ship{
     /**
      * Constructor for Fighter
      */
-    public Fighter(int x, int y, float speed) throws SlickException {
-        super(x, y, speed);
+    public Fighter(int x, int y, float speed, float health) throws SlickException {
+        super(x, y, speed, health);
     }
 
     /**
@@ -26,7 +26,7 @@ public class Fighter extends Ship{
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
 
-        renderShots(Textures.getBullet());
+        renderShots(Textures.getBullet(), graphics);
     }
 
     /**

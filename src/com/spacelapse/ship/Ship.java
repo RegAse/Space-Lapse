@@ -5,8 +5,12 @@ import com.spacelapse.Bullet;
 import com.spacelapse.GameClient;
 import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.geom.Shape;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,24 +22,29 @@ public class Ship{
     public Vector2f position;
     protected float speed;
     protected float rotation;
+    public float health;
 
     protected boolean isAI;
-    protected ArrayList<Bullet> shots;
+    public ArrayList<Bullet> shots = new ArrayList<Bullet>();
     protected boolean hasChanged = false;
     protected float shotSpeed = 0.8f;
     protected int defaultBulletDelay = 100;
-    protected int time = 0;
+    private int time = 0;
 
     /**
      * Constructor for Ship
      */
-    public Ship(int x, int y, float speed) throws SlickException {
+    public Ship(int x, int y, float speed, float health) throws SlickException {
         this.position = new Vector2f(x, y);
         this.speed = speed;
         this.rotation = 0;
-        this.shots = new ArrayList<>();
         this.id = ids;
+        this.health = health;
         ids++;
+    }
+
+    public float applyDamage(float damage) {
+        return this.health -= damage;
     }
 
     /**
@@ -95,16 +104,17 @@ public class Ship{
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
 
-        renderShots(Textures.getBullet());
+        renderShots(Textures.getBullet(), graphics);
     }
 
     /**
      * Render shots method
      */
-    protected void renderShots(Image bullet) {
+    protected void renderShots(Image bullet, Graphics graphics) {
         for (Bullet shot : shots) {
             bullet.setRotation(shot.direction);
             bullet.drawCentered(shot.position.x, shot.position.y);
+            graphics.draw(new Rectangle(shot.position.x, shot.position.y, 10, 10));
         }
     }
 
@@ -152,5 +162,21 @@ public class Ship{
             Response response = new Response(this);
             response.sendData();
         }
+    }
+
+    public boolean intersects(Ship entity) throws SlickException {
+        if (entity == null || entity.position == null || position == null){
+            return false;
+        }
+        Shape shape = new Rectangle(position.x, position.y, 10, 10);
+        return shape.intersects(new Rectangle(entity.position.x, entity.position.y, 10, 10));
+    }
+
+    public boolean intersects(Bullet bullet) throws SlickException {
+        if (bullet == null || bullet.position == null || position == null){
+            return false;
+        }
+        Shape shape = new Rectangle(position.x, position.y, 10, 10);
+        return shape.intersects(new Rectangle(bullet.position.x, bullet.position.y, 10, 10));
     }
 }

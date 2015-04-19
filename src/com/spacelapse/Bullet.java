@@ -1,5 +1,8 @@
 package com.spacelapse;
 
+import com.spacelapse.ship.Ship;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 public class Bullet {
@@ -17,4 +20,11 @@ public class Bullet {
         this.damage = damage;
     }
 
+    public boolean intersects(Ship entity) {
+        if (entity == null || entity.position == null || position == null){
+            return false;
+        }
+        Shape shape = new Rectangle(position.x, position.y, 10, 10);
+        return shape.intersects(new Rectangle(entity.position.x, entity.position.y, 10, 10));
+    }
 }

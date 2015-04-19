@@ -1,13 +1,18 @@
 package com.spacelapse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.spacelapse.ship.Enforcer;
 import com.spacelapse.ship.Ship;
+import org.lwjgl.Sys;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class GameClient extends Thread{
 
@@ -15,24 +20,11 @@ public class GameClient extends Thread{
     public static DataInputStream receive_from_server;
     public static boolean isInitialized = false;
 
-    @Override
-    public void run() {
-        System.out.println("Receive from server constantly");
-        while(true) {
-            try {
-                String serverMessage = receive_from_server.readUTF();
-
-                // Ignore heartbeat messages let TCP take care of it
-                if (!serverMessage.equals("Heartbeat")) {
-                    ProcessServerData(serverMessage);
-                }
-            } catch (IOException e) {
-                System.out.println("Connection to the server has been lost");
-                break;
-            }
-        }
-    }
-
+    /**
+     * Will start a new thread to listen to the server
+     * @param ip Internet Protocol (IP)
+     * @param port Port number
+     */
     public void JoinGame(String ip, int port) {
         Socket consock;
         try {
@@ -56,21 +48,72 @@ public class GameClient extends Thread{
     }
 
     /**
+     * Starts listening to the server constantly
+     */
+    @Override
+    public void run() {
+        System.out.println("Receive from server constantly");
+        while(true) {
+            try {
+                String serverMessage = receive_from_server.readUTF();
+
+                // Ignore heartbeat messages let TCP take care of it
+                if (!serverMessage.equals("Heartbeat")) {
+                    ProcessServerData(serverMessage);
+                }
+            } catch (IOException e) {
+                System.out.println("Connection to the server has been lost");
+                break;
+            }
+        }
+    }
+
+    /**
      * Process Data from server
      * */
     public void ProcessServerData(String data) {
         Gson gson = new Gson();
-        Ship ship = gson.fromJson(data, Enforcer.class);
-        boolean f = false;
-        for (int i = 0; i < Survival.ships.size(); i++) {
-            if (Survival.ships.get(i).id == ship.id) {
-                Survival.ships.set(i, ship);
-                f = true;
-                break;
+        Response response = gson.fromJson(data, Response.class);
+        /*
+        * Need to find out how to convert this object to a ship then it will work
+        * */
+        for (Field field : response.getClass().getFields()) {
+            /* Process only not null fields */
+            try {
+                if (field.get(response) != null){
+                    processField(response, field);
+                }
+            } catch (IllegalAccessException e) {
+                System.out.println("ProcessServerData Exception");
             }
         }
-        if (f == false) {
-            Survival.ships.add(ship);
+    }
+
+    /**
+     * Process the field
+     * @param response object from client
+     * @param field from the response object
+     */
+    private void processField(Response response, Field field){
+        switch(field.getName()){
+            case "enforcer":
+                Ship ship = response.enforcer;
+                boolean f = false;
+                for (int i = 0; i < Survival.ships.size(); i++) {
+                    if (Survival.ships.get(i).id == ship.id) {
+                        Survival.ships.set(i, ship);
+                        f = true;
+                        break;
+                    }
+                }
+                if (f == false) {
+                    System.out.println("Not funny");
+                    Survival.ships.add(ship);
+                    System.out.println(Survival.ships.size());
+                }
+                break;
+            case "playerCount":
+                break;
         }
     }
 }

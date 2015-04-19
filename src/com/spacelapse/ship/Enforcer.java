@@ -1,5 +1,7 @@
 package com.spacelapse.ship;
 
+import com.spacelapse.GameClient;
+import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
 import org.newdawn.slick.*;
 
@@ -27,5 +29,17 @@ public class Enforcer extends Ship{
         texture.drawCentered(position.getX(), position.getY());
 
         renderShots(Textures.getBullet());
+    }
+
+    /**
+     * updatePositionToServer
+     */
+    @Override
+    public void updatePositionToServer()
+    {
+        if (GameClient.isInitialized && hasChanged) {
+            Response response = new Response(this);
+            response.sendData();
+        }
     }
 }

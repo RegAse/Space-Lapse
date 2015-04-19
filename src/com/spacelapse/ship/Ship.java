@@ -3,6 +3,7 @@ package com.spacelapse.ship;
 import com.google.gson.Gson;
 import com.spacelapse.Bullet;
 import com.spacelapse.GameClient;
+import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
@@ -18,6 +19,7 @@ public class Ship{
     protected float speed;
     protected float rotation;
 
+    protected boolean isAI;
     protected ArrayList<Bullet> shots;
     protected boolean hasChanged = false;
     protected float shotSpeed = 0.8f;
@@ -147,13 +149,8 @@ public class Ship{
     public void updatePositionToServer()
     {
         if (GameClient.isInitialized && hasChanged) {
-            try {
-                Gson gson = new Gson();
-                String json = gson.toJson(this);
-                GameClient.send_to_server.writeUTF(json);
-            } catch (IOException e) {
-                System.out.println("Server not found.");
-            }
+            Response response = new Response(this);
+            response.sendData();
         }
     }
 }

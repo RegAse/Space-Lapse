@@ -9,13 +9,11 @@ import java.util.ArrayList;
 
 public class Survival extends BasicGameState {
 
-    public static ArrayList<Ship> ships;
+    public static ArrayList<Ship> ships = new ArrayList<>();
     public static int my_id;
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
-        /** Setup ships **/
-        ships = new ArrayList<Ship>();
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
@@ -23,7 +21,7 @@ public class Survival extends BasicGameState {
             ship.render(gc, graphics);
         }
 
-        graphics.drawString("PlayerCount: " + GameSession.playerCount, 40, 40);
+        graphics.drawString("PlayerCount: " + ships.size(), 40, 40);
     }
 
 

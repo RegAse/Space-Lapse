@@ -2,9 +2,12 @@ package com.spacelapse.server;
 
 
 import com.google.gson.Gson;
+import com.spacelapse.DataMessage;
+import com.spacelapse.Response;
 import com.spacelapse.ship.Enforcer;
 import com.spacelapse.ship.Fighter;
 import com.spacelapse.ship.Ship;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -121,14 +124,14 @@ public class GameServer extends BasicGame{
 
                System.out.println("GameServer: " + firstMessage);
 
+               try {
+                   sendGameData();
+               } catch (SlickException e) {
+                   e.printStackTrace();
+               }
                // Start the receive from client in another thread
                Thread t = new Thread(new Runnable() {
                    public void run() {
-                       try {
-                           newPlayerShip();
-                       } catch (SlickException e) {
-                           e.printStackTrace();
-                       }
                        listenToClient(new_connection, receive_from_client);
                    }
                });
@@ -179,13 +182,31 @@ public class GameServer extends BasicGame{
     /**
      * Game setup functions
      **/
-    public static void newPlayerShip() throws SlickException {
-        Enforcer ship = new Enforcer(100, 100, 0.5f);
-        ships.add(ship);
+    public static void sendGameData() throws SlickException {
+        Enforcer new_ship = new Enforcer(100, 100, 0.5f);
+        ships.add(new_ship);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(ship);
-        sendJsonToAll(json);
+        /* Send all the ships to the new connection */
+        for (Ship ship : ships){
+            if (ship instanceof Enforcer){
+                Response dm = new Response((Enforcer)ship);
+                Gson gson = new Gson();
+                String json = gson.toJson(dm);
+                sendJsonToAll(json);
+            }
+            else if(ship instanceof Fighter) {
+                Response dm = new Response((Fighter)ship);
+                Gson gson = new Gson();
+                String json = gson.toJson(dm);
+                sendJsonToAll(json);
+            }
+            else{
+                Response dm = new Response(ship);
+                Gson gson = new Gson();
+                String json = gson.toJson(dm);
+                sendJsonToAll(json);
+            }
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.spacelapse.ship;
 
-import com.spacelapse.Bullet;
+import com.spacelapse.GameClient;
+import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
 import org.newdawn.slick.*;
 
@@ -28,4 +29,15 @@ public class Fighter extends Ship{
         renderShots(Textures.getBullet());
     }
 
+    /**
+     * updatePositionToServer
+     */
+    @Override
+    public void updatePositionToServer()
+    {
+        if (GameClient.isInitialized && hasChanged) {
+            //Response response = new Response(this);
+            //response.sendData();
+        }
+    }
 }

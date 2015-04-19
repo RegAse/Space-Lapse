@@ -22,8 +22,11 @@ public class Game extends StateBasedGame {
     }
 
     public void initStatesList(GameContainer gc) throws SlickException {
-        this.getState(mainmenu).init(gc, this);
-        this.enterState(mainmenu);
+        //this.getState(survival).init(gc, this);
+        GameClient gameclient = new GameClient();
+        gameclient.JoinGame("localhost", 8976);
+
+        this.enterState(survival);
     }
 
     public static void main(String[] arguments) {

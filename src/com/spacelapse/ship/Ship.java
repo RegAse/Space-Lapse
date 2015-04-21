@@ -54,27 +54,29 @@ public class Ship{
         hasChanged = false;
         Input input = gameContainer.getInput();
 
-        /* Basic movement code */
-        if (input.isKeyDown(Input.KEY_D) && gameContainer.getWidth() >= this.position.x + speed * delta) {
+        /* Basic movement code
+        *  Supports game controllers
+        *  PS4
+        * */
+        if (((input.getControllerCount() > 0 && input.isControllerRight(0)) || input.isKeyDown(Input.KEY_D)) && gameContainer.getWidth() >= this.position.x + speed * delta) {
             this.position.x += speed * delta;
             hasChanged = true;
         }
-        else if (input.isKeyDown(Input.KEY_A) && 0 <= this.position.x + speed * delta) {
+        else if (((input.getControllerCount() > 0 && input.isControllerLeft(0)) || input.isKeyDown(Input.KEY_A)) && 0 <= this.position.x + speed * delta) {
             this.position.x -= speed * delta;
             hasChanged = true;
         }
 
-        if (input.isKeyDown(Input.KEY_W) && 0 <= this.position.y + speed * delta) {
+        if (((input.getControllerCount() > 0 && input.isControllerUp(0)) || input.isKeyDown(Input.KEY_W)) && 0 <= this.position.y + speed * delta) {
             this.position.y -= speed * delta;
             hasChanged = true;
-        }
-        else if (input.isKeyDown(Input.KEY_S) && gameContainer.getHeight() >= this.position.y + speed * delta) {
+        } else if (((input.getControllerCount() > 0 && input.isControllerDown(0)) || input.isKeyDown(Input.KEY_S)) && gameContainer.getHeight() >= this.position.y + speed * delta) {
             this.position.y += speed * delta;
             hasChanged = true;
         }
 
 
-        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || (input.getControllerCount() > 0  && input.isButtonPressed(7, 0))) {
             time -= delta;
             if (time <= 0) {
                 Shoot();
@@ -124,14 +126,28 @@ public class Ship{
     public void rotateTowardsMouse(GameContainer gameContainer)
     {
         Input input = gameContainer.getInput();
-        float xdist = input.getMouseX() - position.x;
-        float ydist = input.getMouseY() - position.y;
-
-        float newrotation = (float) Math.toDegrees(Math.atan2(ydist, xdist));
-        if (newrotation != rotation)
+        if (input.getControllerCount() > 0 && input.getAxisValue(0, 0) != 0) {
+            /* for controller input */
+            /* Calculates the angle of the ship according to the controllers axis */
+            float newrotation = (float)Math.toDegrees(Math.atan2(input.getAxisValue(0, 0) , input.getAxisValue(0, 1)));
+            if (newrotation != rotation)
+            {
+                rotation = newrotation;
+                hasChanged = true;
+            }
+        }
+        else
         {
-            rotation = newrotation;
-            hasChanged = true;
+            /* for mouse input */
+            float xdist = input.getMouseX() - position.x;
+            float ydist = input.getMouseY() - position.y;
+
+            float newrotation = (float) Math.toDegrees(Math.atan2(ydist, xdist));
+            if (newrotation != rotation)
+            {
+                rotation = newrotation;
+                hasChanged = true;
+            }
         }
     }
 

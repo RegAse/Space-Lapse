@@ -26,7 +26,6 @@ public class Survival extends BasicGameState {
         graphics.draw(new Rectangle(200, 200, 40, 40));
     }
 
-
     public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gameContainer.getInput();
 
@@ -41,7 +40,8 @@ public class Survival extends BasicGameState {
             int u = - 1;
             while (++u < ship1.shots.size()) {
                 Bullet bull = ship1.shots.get(u);
-                for (Ship ship2 : ships) {
+                for (int i2 = ships.size() - 1; i2 >= 0; i2--) {
+                    Ship ship2 = ships.get(i2);
                     if (ship2 != ship1 && ship2.intersects(bull)) {
                         ship1.shots.remove(u);
                         System.out.println("Removed bullet.");

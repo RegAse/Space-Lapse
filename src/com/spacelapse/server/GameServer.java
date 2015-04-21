@@ -52,7 +52,7 @@ public class GameServer extends BasicGame{
             public void run() {
                 try {
                     ships.add(new Enforcer(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
-                    sendGameData();
+                    sendGameData();// Concurrent mod error
                     System.out.println("Lel");
                 } catch (SlickException e) {
                     e.printStackTrace();
@@ -72,7 +72,7 @@ public class GameServer extends BasicGame{
                 Bullet bull = ship1.shots.get(i);
                 for (int i2 = 0; i2 < ships.size(); i2++) {
                     Ship ship2 = ships.get(i2);
-                    if (ship2 != ship1 && ship2.intersects(bull)) {
+                    if (ship2.id != ship1.id && ship2.intersects(bull)) {
                         ship2.applyDamage(bull.damage);
                         ship1.shots.remove(i);
                         System.out.println("Removed bullet.");
@@ -246,7 +246,7 @@ public class GameServer extends BasicGame{
             sendJsonToAll(json);
         }
         else if(ship instanceof Fighter) {
-            Response dm = new Response((Fighter)ship);
+            Response dm = new Response((Fighter) ship);
             Gson gson = new Gson();
             String json = gson.toJson(dm);
             sendJsonToAll(json);
@@ -261,8 +261,12 @@ public class GameServer extends BasicGame{
 
     public static void sendGameData() throws SlickException {
         /* Send all the ships to all of the clients */
-        for (int i = 0; i < ships.size(); i++) {
-            sendShipData(ships.get(i));
+        for (int i = ships.size() - 1; i >= 0; i--) {
+            try {
+                sendShipData(ships.get(i));
+            }catch (Exception ex){
+                System.out.println("The collection was modified while trying to send it.");
+            }
         }
     }
 

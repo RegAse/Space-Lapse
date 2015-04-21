@@ -8,6 +8,7 @@ public class Game extends StateBasedGame {
 
     public static final String GameName = "Space Lapse";
     public static final double VersionNumber = 0.02;
+    public static boolean usingController = false;
 
     // States
     public static final int mainmenu = 0;

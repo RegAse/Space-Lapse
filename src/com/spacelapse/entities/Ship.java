@@ -1,50 +1,35 @@
-package com.spacelapse.ship;
+package com.spacelapse.entities;
 
-import com.google.gson.Gson;
-import com.spacelapse.Bullet;
 import com.spacelapse.GameClient;
 import com.spacelapse.Response;
+import com.spacelapse.Survival;
 import com.spacelapse.resourcemanager.Textures;
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Transform;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.geom.Shape;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-public class Ship{
-
-    public static int ids = 0; // REMOVE LATER
-    public int id;
-    public Vector2f position;
-    protected float speed;
-    protected float rotation;
-    public float health;
+public class Ship extends Entity{
 
     protected boolean isAI;
-    public ArrayList<Bullet> shots = new ArrayList<Bullet>();
     protected boolean hasChanged = false;
     protected float shotSpeed = 0.8f;
     protected int defaultBulletDelay = 100;
     private int time = 0;
+    public Integer score = 300;
 
     /**
      * Constructor for Ship
      */
     public Ship(int x, int y, float speed, float health) throws SlickException {
-        this.position = new Vector2f(x, y);
-        this.speed = speed;
-        this.rotation = 0;
-        this.id = ids;
-        this.health = health;
-        ids++;
+        super(x, y, speed, health);
     }
 
     public float applyDamage(float damage) {
         return this.health -= damage;
+    }
+
+    public void renderShipUI(GameContainer gameContainer, Graphics graphics) {
+        graphics.drawString("Score: " + score, 500, 20);
     }
 
     /**
@@ -88,16 +73,16 @@ public class Ship{
 
     /**
      * Shoot method
-     * this adds a bullet to the bullet list of a ship
+     * this adds a bullet to the bullet list of a entities
      */
     public void Shoot()
     {
-        shots.add(new Bullet(this.position.x, this.position.y, this.rotation, true, 10f));
+        Bullet bullet = new Bullet(this.position.x, this.position.y, 0.3f, 30f, this.rotation, 20f);
+        Response response = new Response(bullet);
+        response.sendData();
     }
 
-    /**
-     * Render method
-     */
+    @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         Image texture = Textures.getFighter();
         Input input = gameContainer.getInput();
@@ -105,30 +90,22 @@ public class Ship{
 
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
+    }
 
-        renderShots(Textures.getBullet(), graphics);
+    @Override
+    public boolean intersects(Entity entity) throws SlickException {
+        return false;
     }
 
     /**
-     * Render shots method
-     */
-    protected void renderShots(Image bullet, Graphics graphics) {
-        for (Bullet shot : shots) {
-            bullet.setRotation(shot.direction);
-            bullet.drawCentered(shot.position.x, shot.position.y);
-            graphics.draw(new Rectangle(shot.position.x, shot.position.y, 10, 10));
-        }
-    }
-
-    /**
-     * Rotates ship towards mouse
+     * Rotates entities towards mouse
      */
     public void rotateTowardsMouse(GameContainer gameContainer)
     {
         Input input = gameContainer.getInput();
         if (input.getControllerCount() > 0 && input.getAxisValue(0, 0) != 0) {
             /* for controller input */
-            /* Calculates the angle of the ship according to the controllers axis */
+            /* Calculates the angle of the entities according to the controllers axis */
             float newrotation = (float)Math.toDegrees(Math.atan2(input.getAxisValue(0, 0) , input.getAxisValue(0, 1)));
             if (newrotation != rotation)
             {
@@ -152,24 +129,6 @@ public class Ship{
     }
 
     /**
-     * Add force to bullets
-     */
-    public void addForceToBullets(GameContainer gameContainer, int delta) {
-        // Add force to shots
-        int i = - 1;
-        while (++i < shots.size()) {
-            Bullet shot = shots.get(i);
-            if (shot.position.x > gameContainer.getWidth() || shot.position.y > gameContainer.getHeight() || shot.position.x < - 10 || shot.position.y < - 10) {
-                shots.remove(i);
-            }
-            else {
-                shot.position.x -= (shotSpeed * Math.sin(Math.toRadians(shot.direction) - 190f)) * delta;
-                shot.position.y += (shotSpeed * Math.cos(Math.toRadians(shot.direction) - 190f)) * delta;
-            }
-        }
-    }
-
-    /**
      * updatePositionToServer
      */
     public void updatePositionToServer()
@@ -181,7 +140,7 @@ public class Ship{
     }
 
     public boolean intersects(Ship entity) throws SlickException {
-        if (entity == null || entity.position == null || position == null){
+        if (entity == null || entity.position == null || position == null) {
             return false;
         }
         Shape shape = new Rectangle(position.x, position.y, 10, 10);
@@ -189,7 +148,7 @@ public class Ship{
     }
 
     public boolean intersects(Bullet bullet) throws SlickException {
-        if (bullet == null || bullet.position == null || position == null){
+        if (bullet == null || bullet.position == null || position == null) {
             return false;
         }
         Shape shape = new Rectangle(position.x, position.y, 10, 10);

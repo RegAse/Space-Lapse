@@ -1,6 +1,5 @@
-package com.spacelapse.ship;
+package com.spacelapse.entities;
 
-import com.spacelapse.Bullet;
 import com.spacelapse.GameClient;
 import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
@@ -30,8 +29,6 @@ public class Enforcer extends Ship{
 
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
-
-        renderShots(Textures.getBullet(), graphics);
 
         graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }

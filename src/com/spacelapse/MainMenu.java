@@ -4,9 +4,8 @@ package com.spacelapse;
 import java.io.File;
 
 import com.spacelapse.UI.TextInput;
-import com.spacelapse.ship.Enforcer;
-import com.spacelapse.ship.Fighter;
-import com.spacelapse.ship.Ship;
+import com.spacelapse.entities.Enforcer;
+import com.spacelapse.entities.Fighter;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -17,8 +16,6 @@ import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import java.awt.Font;
 
 public class MainMenu extends BasicGameState {
 
@@ -38,7 +35,7 @@ public class MainMenu extends BasicGameState {
     // Inputs
     private TextInput port;
 
-    /** Fighter ship tests **/
+    /** Fighter entities tests **/
     Fighter fig;
     Enforcer fig2;
 
@@ -98,8 +95,8 @@ public class MainMenu extends BasicGameState {
         Input input = gc.getInput();
         graphics.setBackground(Color.darkGray.darker(0.6f));
 
-        // Render the ship
-        //ship.render(gc, graphics, texture, bulletTexture);
+        // Render the entities
+        //entities.render(gc, graphics, texture, bulletTexture);
         fig.render(gc, graphics);
         fig2.render(gc, graphics);
 
@@ -122,7 +119,6 @@ public class MainMenu extends BasicGameState {
 
         fig2.Controller(gameContainer, delta);
         fig2.rotateTowardsMouse(gameContainer);
-        fig2.addForceToBullets(gameContainer, delta);
 
         // Particle System
         system.update(delta);

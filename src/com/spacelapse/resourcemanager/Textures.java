@@ -21,6 +21,14 @@ public class Textures {
         return Enforcer;
     }
 
+    private static Image Asteroid;
+
+    public static Image getAsteroid() throws SlickException {
+        if (Asteroid == null)
+            Asteroid = new Image("data/rocks/rock.png", false);
+        return Asteroid;
+    }
+
     private static Image Bullet;
 
     public static Image getBullet() throws SlickException {

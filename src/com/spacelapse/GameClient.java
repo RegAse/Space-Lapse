@@ -1,7 +1,9 @@
 package com.spacelapse;
 
 import com.google.gson.Gson;
-import com.spacelapse.ship.Ship;
+import com.spacelapse.entities.Asteroid;
+import com.spacelapse.entities.Ship;
+import com.spacelapse.entities.Bullet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -70,7 +72,7 @@ public class GameClient extends Thread{
         Gson gson = new Gson();
         Response response = gson.fromJson(data, Response.class);
         /*
-        * Need to find out how to convert this object to a ship then it will work
+        * Need to find out how to convert this object to a entities then it will work
         * */
         for (Field field : response.getClass().getFields()) {
             /* Process only not null fields */
@@ -94,28 +96,58 @@ public class GameClient extends Thread{
             case "enforcer":
                 Ship ship = response.enforcer;
                 boolean f = false;
-                for (int i = 0; i < Survival.ships.size(); i++) {
-                    if (Survival.ships.get(i).id == ship.id) {
-                        Survival.ships.set(i, ship);
+                for (int i = 0; i < Survival.entities.size(); i++) {
+                    if (Survival.entities.get(i).id == ship.id) {
+                        Survival.entities.set(i, ship);
                         f = true;
                         break;
                     }
                 }
                 if (f == false) {
-                    System.out.println("Not funny");
-                    Survival.ships.add(ship);
-                    System.out.println(Survival.ships.size());
+                    Survival.entities.add(ship);
                 }
                 break;
             case "playerCount":
                 break;
-            case "removeShip":
-                int id = response.removeShip;
-                for (int i = 0; i < Survival.ships.size(); i++) {
-                    if (Survival.ships.get(i).id == id){
-                        Survival.ships.remove(i);
+            case "removeEntity":
+                int id = response.removeEntity;
+                for (int i = 0; i < Survival.entities.size(); i++) {
+                    if (Survival.entities.get(i).id == id){
+                        Survival.entities.remove(i);
                     }
                 }
+                break;
+            case "asteroid":
+                Asteroid asteroid = response.asteroid;
+                boolean f1 = false;
+                for (int i = 0; i < Survival.entities.size(); i++) {
+                    if (Survival.entities.get(i).id == asteroid.id) {
+                        Survival.entities.set(i, asteroid);
+                        f1 = true;
+                        break;
+                    }
+                }
+                if (f1 == false) {
+                    Survival.entities.add(asteroid);
+                }
+                break;
+            case "bullet":
+                System.out.println("I got a bullet");
+                Bullet bullet = response.bullet;
+                /*boolean f2 = false;
+                for (int i = 0; i < Survival.entities.size(); i++) {
+                    if (Survival.entities.get(i).id == bullet.id) {
+                        Survival.entities.set(i, bullet);
+                        f2 = true;
+                        break;
+                    }
+                }
+                if (f2 == false) {
+                    System.out.println("Adding to list");
+                    Survival.entities.add(bullet);
+                }*/
+                System.out.println("Adding to list");
+                Survival.entities.add(bullet);
                 break;
         }
     }

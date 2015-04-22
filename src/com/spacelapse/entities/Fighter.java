@@ -1,7 +1,6 @@
-package com.spacelapse.ship;
+package com.spacelapse.entities;
 
 import com.spacelapse.GameClient;
-import com.spacelapse.Response;
 import com.spacelapse.resourcemanager.Textures;
 import org.newdawn.slick.*;
 
@@ -25,8 +24,6 @@ public class Fighter extends Ship{
 
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
-
-        renderShots(Textures.getBullet(), graphics);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.spacelapse;
 
-import com.spacelapse.ship.Ship;
+import com.spacelapse.entities.Bullet;
+import com.spacelapse.entities.Entity;
+import com.spacelapse.entities.Ship;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 
 public class Survival extends BasicGameState {
 
-    public static ArrayList<Ship> ships = new ArrayList<>();
+    public static ArrayList<Entity> entities = new ArrayList<>();
     public static int my_id;
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -18,40 +20,43 @@ public class Survival extends BasicGameState {
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
-        for (int i = 0; i < ships.size(); i++) {
-            ships.get(i).render(gc, graphics);
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+            entity.render(gc, graphics);
+            if (entity instanceof Ship && entity.id == my_id) {
+                ((Ship)entity).renderShipUI(gc, graphics);
+            }
         }
 
-        graphics.drawString("PlayerCount: " + ships.size(), 40, 40);
+        graphics.drawString("PlayerCount: " + entities.size(), 40, 40);
         graphics.draw(new Rectangle(200, 200, 40, 40));
     }
 
     public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gameContainer.getInput();
 
-        for (int i = 0; i < ships.size(); i++) {
-            if (ships.get(i).id == my_id) {
-                ships.get(i).Controller(gameContainer, delta);
-                ships.get(i).rotateTowardsMouse(gameContainer);
-                ships.get(i).updatePositionToServer();
+        for (int i = 0; i < entities.size(); i++) {
+            Entity entity = entities.get(i);
+            if (entity instanceof Ship && entity.id == my_id) {
+                Ship ship = (Ship) entity;
+                ship.Controller(gameContainer, delta);
+                ship.rotateTowardsMouse(gameContainer);
+                ship.updatePositionToServer();
             }
+            else if (entity instanceof Bullet) {
+                Bullet bullet = (Bullet) entity;
 
-            Ship ship1 = ships.get(i);
-            int u = - 1;
-            while (++u < ship1.shots.size()) {
-                Bullet bull = ship1.shots.get(u);
-                for (int i2 = ships.size() - 1; i2 >= 0; i2--) {
-                    Ship ship2 = ships.get(i2);
-                    if (ship2 != ship1 && ship2.intersects(bull)) {
-                        ship1.shots.remove(u);
-                        System.out.println("Removed bullet.");
-                        break;
+                /*for (int i2 = entities.size() - 1; i2 >= 0; i2--) {
+                    Entity entity2 = entities.get(i2);
+                    if (!(entity2 instanceof Bullet)) {
+                        if (bullet.intersects(entity2)) {
+
+                            break;
+                        }
                     }
-                }
+                }*/
+                bullet.addForceToBullet(gameContainer, delta);
             }
-
-            /** Add force to all bullets  **/
-            ships.get(i).addForceToBullets(gameContainer, delta);
         }
     }
 

@@ -2,16 +2,15 @@ package com.spacelapse.server;
 
 
 import com.google.gson.Gson;
-import com.spacelapse.Bullet;
+import com.spacelapse.entities.Bullet;
 import com.spacelapse.Response;
-import com.spacelapse.ship.Enforcer;
-import com.spacelapse.ship.Fighter;
-import com.spacelapse.ship.Ship;
+import com.spacelapse.entities.*;
 import org.newdawn.slick.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class GameServer extends BasicGame{
      * Server variables
      */
     public static double versionNumber = 0.12;
+    public static boolean isInitialized;
     private static String ipAddress = "localhost";
     private static int portNumber = 8976;
     private static ServerSocket socket;
@@ -35,7 +35,13 @@ public class GameServer extends BasicGame{
     /**
      * Game variables
      */
-    private static ArrayList<Ship> ships = new ArrayList<>();
+    private static int next_entity_id = 0;
+    private static ArrayList<Entity> entities = new ArrayList<>();
+
+    public static int getNextEntityId(){
+        return next_entity_id++;
+    }
+
 
     public GameServer()
     {
@@ -44,6 +50,7 @@ public class GameServer extends BasicGame{
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
+        isInitialized = true;
         random = new Random();
         timer = new Timer();
 
@@ -51,41 +58,46 @@ public class GameServer extends BasicGame{
             @Override
             public void run() {
                 try {
-                    ships.add(new Enforcer(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
+                    //entities.add(new Enforcer(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
+                    entities.add(new Asteroid(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
                     sendGameData();// Concurrent mod error
                     System.out.println("Lel");
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
             }
-        }, 1*5*1000, 1*5*1000);
+        }, 1*7*1000, 1*7*1000);
     }
 
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         boolean f = false;
         /* Server bullet process */
-        for (int i1 = 0; i1 < ships.size(); i1++) {
-            Ship ship1 = ships.get(i1);
-            int i = -1;
-            while (++i < ship1.shots.size()) {
-                Bullet bull = ship1.shots.get(i);
-                for (int i2 = 0; i2 < ships.size(); i2++) {
-                    Ship ship2 = ships.get(i2);
-                    if (ship2.id != ship1.id && ship2.intersects(bull)) {
-                        ship2.applyDamage(bull.damage);
-                        ship1.shots.remove(i);
-                        System.out.println("Removed bullet.");
-                        if (ship2.health <= 0) {
-                            removeShip(ship2);
+        for (int i1 = 0; i1 < entities.size(); i1++) {
+            Entity entity = entities.get(i1);
+
+            if (entity instanceof Ship) {
+                Ship ship = (Ship) entity;
+            }
+            else if (entity instanceof Bullet) {
+                /*Bullet bullet = (Bullet)entity;
+                for (int i2 = 0; i2 < entities.size(); i2++) {
+                    Entity entity2 = entities.get(i2);
+
+                    if (entity2.intersects(bullet)) {
+                        entity2.applyDamage(bullet.damage);
+
+                        if (entity2.health <= 0) {
+                            removeEntity(entity2);
                         } else {
-                            sendShipData(ship2);
+                            sendEntityData(entity2);
                         }
                         break;
                     }
-                }
+                }*/
+
+                //bullet.addForceToBullet(gameContainer, delta);
             }
-            ship1.addForceToBullets(gameContainer, delta);
         }
     }
 
@@ -150,9 +162,9 @@ public class GameServer extends BasicGame{
 
                String firstMessage = receive_from_client.readUTF();
 
-               //Send the id of the ship he can control
+               //Send the id of the entity he can control
                DataOutputStream send_to_client = new DataOutputStream(new_connection.getOutputStream());
-               send_to_client.writeInt(Ship.ids);
+               send_to_client.writeInt(GameServer.next_entity_id);
 
                System.out.println("GameServer: " + firstMessage);
 
@@ -179,16 +191,7 @@ public class GameServer extends BasicGame{
             try {
                 String data = receive_from_client.readUTF();
 
-                /* Change this over the same as the client uses */
-                Gson gson = new Gson();
-                Enforcer ship = gson.fromJson(data, Response.class).enforcer;
-
-                for (int i = 0; i < ships.size(); i++) {
-                    if (ship.id == ships.get(i).id) {
-                        ships.set(i, ship);
-                    }
-                }
-                sendJsonToAll(data);
+                ProcessClientData(data);
 
             } catch (IOException e) {
                 System.out.println("Lost Connection");
@@ -196,6 +199,50 @@ public class GameServer extends BasicGame{
                 connectionsStatus();
                 break;
             }
+        }
+    }
+
+    /**
+     * Process Data from server
+     * */
+    public static void ProcessClientData(String data) {
+        Gson gson = new Gson();
+        Response response = gson.fromJson(data, Response.class);
+
+        for (Field field : response.getClass().getFields()) {
+            /* Process only not null fields */
+            try {
+                if (field.get(response) != null){
+                    processField(response, field, data);
+                }
+            } catch (IllegalAccessException e) {
+                System.out.println("ProcessServerData Exception");
+            }
+        }
+    }
+
+    private static void processField(Response response, Field field, String data) {
+        switch(field.getName()){
+            case "bullet":
+                Bullet bullet = response.bullet;
+                Bullet bullet1 = new Bullet(bullet.position.x, bullet.position.y, bullet.speed, bullet.health, bullet.rotation, bullet.damage);
+                entities.add(bullet1);
+
+                Response response1 = new Response(bullet1);
+                Gson gson = new Gson();
+                String json = gson.toJson(response1);
+                sendJsonToAll(json);
+                break;
+            case "enforcer":
+                sendJsonToAll(data);
+                Enforcer ship = response.enforcer;
+
+                for (int i = 0; i < entities.size(); i++) {
+                    if (ship.id == entities.get(i).id) {
+                        entities.set(i, ship);
+                    }
+                }
+                break;
         }
     }
 
@@ -219,40 +266,46 @@ public class GameServer extends BasicGame{
      **/
     public static void newPlayer() throws SlickException {
         Enforcer new_ship = new Enforcer(100, 100, 0.5f, 100f);
-        ships.add(new_ship);
+        entities.add(new_ship);
 
         sendGameData();
     }
 
     /**
-     * Removes the ship and sends message telling the client to remove this ship
-     * @param  ship the ship to remove
+     * Removes the entities and sends message telling the client to remove this entities
+     * @param  entity the entities to remove
      */
-    public static void removeShip(Ship ship) {
-        ships.remove(ship);
+    public static void removeEntity(Entity entity) {
+        entities.remove(entity);
         Response response = new Response();
-        response.removeShip(ship.id);
+        response.removeEntity(entity.id);
         Gson gson = new Gson();
         String json = gson.toJson(response);
         sendJsonToAll(json);
     }
 
-    public static void sendShipData(Ship ship) throws SlickException {
-        if (ship instanceof Enforcer){
-            Response dm = new Response((Enforcer) ship);
+    public static void sendEntityData(Entity entity) throws SlickException {
+        if (entity instanceof Enforcer){
+            Response dm = new Response((Enforcer) entity);
             Gson gson = new Gson();
             String json = gson.toJson(dm);
             System.out.println(json);
             sendJsonToAll(json);
         }
-        else if(ship instanceof Fighter) {
-            Response dm = new Response((Fighter) ship);
+        else if(entity instanceof Fighter) {
+            Response dm = new Response((Fighter) entity);
             Gson gson = new Gson();
             String json = gson.toJson(dm);
             sendJsonToAll(json);
         }
-        else{
-            Response dm = new Response(ship);
+        else if(entity instanceof Asteroid){
+            Response dm = new Response((Asteroid) entity);
+            Gson gson = new Gson();
+            String json = gson.toJson(dm);
+            sendJsonToAll(json);
+        }
+        else if (entity instanceof Bullet) {
+            Response dm = new Response((Bullet) entity);
             Gson gson = new Gson();
             String json = gson.toJson(dm);
             sendJsonToAll(json);
@@ -261,9 +314,12 @@ public class GameServer extends BasicGame{
 
     public static void sendGameData() throws SlickException {
         /* Send all the ships to all of the clients */
-        for (int i = ships.size() - 1; i >= 0; i--) {
+        for (int i = entities.size() - 1; i >= 0; i--) {
             try {
-                sendShipData(ships.get(i));
+                Entity entity = entities.get(i);
+                if(!(entity instanceof Bullet)) {
+                    sendEntityData(entities.get(i));
+                }
             }catch (Exception ex){
                 System.out.println("The collection was modified while trying to send it.");
             }

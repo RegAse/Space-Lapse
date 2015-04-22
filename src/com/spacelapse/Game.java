@@ -9,6 +9,7 @@ public class Game extends StateBasedGame {
     public static final String GameName = "Space Lapse";
     public static final double VersionNumber = 0.02;
     public static boolean usingController = false;
+    private static int next_entity_id;
 
     // States
     public static final int mainmenu = 0;
@@ -20,6 +21,10 @@ public class Game extends StateBasedGame {
         this.addState(new MainMenu(mainmenu));
         this.addState(new Settings(settings));
         this.addState(new Survival(survival));
+    }
+
+    public static int getNextEntityId(){
+        return next_entity_id++;
     }
 
     public void initStatesList(GameContainer gc) throws SlickException {

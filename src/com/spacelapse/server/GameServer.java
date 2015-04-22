@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.spacelapse.entities.Bullet;
 import com.spacelapse.Response;
 import com.spacelapse.entities.*;
+import com.spacelapse.resourcemanager.Fonts;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 
 import java.io.DataInputStream;
@@ -80,29 +82,33 @@ public class GameServer extends BasicGame{
                 Ship ship = (Ship) entity;
             }
             else if (entity instanceof Bullet) {
-                /*Bullet bullet = (Bullet)entity;
+                Bullet bullet = (Bullet)entity;
                 for (int i2 = 0; i2 < entities.size(); i2++) {
                     Entity entity2 = entities.get(i2);
 
-                    if (entity2.intersects(bullet)) {
+                    if (!(entity2 instanceof Bullet) && entity2.intersects(bullet) && entity2.id != bullet.ownerId) {
                         entity2.applyDamage(bullet.damage);
 
                         if (entity2.health <= 0) {
                             removeEntity(entity2);
-                        } else {
+                        }
+                        else {
                             sendEntityData(entity2);
                         }
+
+                        removeEntity(bullet);
                         break;
                     }
-                }*/
+                }
 
-                //bullet.addForceToBullet(gameContainer, delta);
+                bullet.addForceToBullet(gameContainer, delta);
             }
         }
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        graphics.setFont(Fonts.getImpact());
         graphics.drawString("Server on port: " + portNumber, 15, 15);
         graphics.drawString("Connected players: " + connectedSockets.size(), 15, 30);
     }
@@ -225,7 +231,7 @@ public class GameServer extends BasicGame{
         switch(field.getName()){
             case "bullet":
                 Bullet bullet = response.bullet;
-                Bullet bullet1 = new Bullet(bullet.position.x, bullet.position.y, bullet.speed, bullet.health, bullet.rotation, bullet.damage);
+                Bullet bullet1 = new Bullet(bullet.ownerId, bullet.position.x, bullet.position.y, bullet.speed, bullet.health, bullet.rotation, bullet.damage);
                 entities.add(bullet1);
 
                 Response response1 = new Response(bullet1);

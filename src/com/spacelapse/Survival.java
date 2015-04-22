@@ -3,6 +3,8 @@ package com.spacelapse;
 import com.spacelapse.entities.Bullet;
 import com.spacelapse.entities.Entity;
 import com.spacelapse.entities.Ship;
+import com.spacelapse.resourcemanager.Fonts;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -46,13 +48,13 @@ public class Survival extends BasicGameState {
             else if (entity instanceof Bullet) {
                 Bullet bullet = (Bullet) entity;
 
-                /*for (int i2 = entities.size() - 1; i2 >= 0; i2--) {
+                /*
+                for (int i2 = entities.size() - 1; i2 >= 0; i2--) {
                     Entity entity2 = entities.get(i2);
-                    if (!(entity2 instanceof Bullet)) {
-                        if (bullet.intersects(entity2)) {
-
-                            break;
-                        }
+                    if (!(entity2 instanceof Bullet) && entity2.id != bullet.ownerId && entity2.intersects(bullet)) {
+                        System.out.println("I intersected");
+                        //entities.remove(bullet);
+                        break;
                     }
                 }*/
                 bullet.addForceToBullet(gameContainer, delta);

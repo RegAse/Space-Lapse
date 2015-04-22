@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 /**
  * Bullet entity class
@@ -15,11 +16,13 @@ import org.newdawn.slick.geom.Rectangle;
 public class Bullet extends Entity{
 
     public float damage;
+    public Integer ownerId;
 
-    public Bullet(float x, float y, float speed, float health, float rotation, float damage) {
+    public Bullet(Integer ownerId, float x, float y, float speed, float health, float rotation, float damage) {
         super(x, y, speed, health);
         this.rotation = rotation;
         this.damage = damage;
+        this.ownerId = ownerId;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class Bullet extends Entity{
     }
 
     @Override
-    public boolean intersects(Entity entity) throws SlickException {
+    public boolean intersects(Bullet bullet) throws SlickException {
         return false;
     }
 

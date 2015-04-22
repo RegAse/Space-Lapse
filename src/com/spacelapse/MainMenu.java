@@ -2,10 +2,13 @@ package com.spacelapse;
 
 
 import java.io.File;
+import java.util.ArrayList;
 
 import com.spacelapse.UI.TextInput;
+import com.spacelapse.entities.Asteroid;
 import com.spacelapse.entities.Enforcer;
-import com.spacelapse.entities.Fighter;
+import com.spacelapse.entities.Entity;
+import com.spacelapse.resourcemanager.Fonts;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -36,23 +39,23 @@ public class MainMenu extends BasicGameState {
     private TextInput port;
 
     /** Fighter entities tests **/
-    Fighter fig;
-    Enforcer fig2;
+    public static ArrayList<Entity> entities = new ArrayList<>();
 
     public void init(GameContainer gc, final StateBasedGame sbg) throws SlickException {
         midScreen = new Vector2f(gc.getWidth() / 2, gc.getHeight() / 2);
-        fig = new Fighter(50, 50, 0.5f, 40f);
-        fig2 = new Enforcer(100, 100, 0.5f, 40f);
+
+        entities.add(new Enforcer(100, 100, 0.5f, 40f));
+        entities.add(new Asteroid(100, 100, 0.7f, 30f));
 
         MainMenuParticleSystem();
 
         // Buttons
         Color color = Color.white;
-        Color hovercolor = Color.darkGray;
-        hostgame = new TextButton("Host Game", 200, 200, 120, 40, color, hovercolor);
-        joingame = new TextButton("Join Game", 200, 240, 120, 40, color, hovercolor);
-        settings = new TextButton("Settings", 200, 280, 120, 40, color, hovercolor);
-        quitgame = new TextButton("Quit Game", 200, 320, 120, 40, color, hovercolor);
+        Color hoverColor = Color.darkGray;
+        hostgame = new TextButton("Host Game", 200, 200, 120, 40, color, hoverColor);
+        joingame = new TextButton("Join Game", 200, 240, 120, 40, color, hoverColor);
+        settings = new TextButton("Settings", 200, 280, 120, 40, color, hoverColor);
+        quitgame = new TextButton("Quit Game", 200, 320, 120, 40, color, hoverColor);
 
         // Inputs
         port = new TextInput();
@@ -89,26 +92,27 @@ public class MainMenu extends BasicGameState {
         });
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
-        system2.render();
-        system.render();
-        Input input = gc.getInput();
+    public void render(GameContainer gameContainer, StateBasedGame sbg, Graphics graphics) throws SlickException {
+        graphics.setFont(Fonts.getImpact());
+        //system2.render();
+        //system.render();
+        Input input = gameContainer.getInput();
         graphics.setBackground(Color.darkGray.darker(0.6f));
 
         // Render the entities
         //entities.render(gc, graphics, texture, bulletTexture);
-        fig.render(gc, graphics);
-        fig2.render(gc, graphics);
+        for (int i = 0; i < entities.size(); i++) {
+            entities.get(i).render(gameContainer, graphics);
+        }
 
-        //graphics.setFont(fontbig);
         graphics.drawString("Space Lapse", midScreen.x - 370, 100);
         graphics.setColor(Color.white);
         //graphics.setFont(font);
         // Render the buttons
-        hostgame.render(gc, graphics);
-        joingame.render(gc, graphics);
-        settings.render(gc, graphics);
-        quitgame.render(gc, graphics);
+        hostgame.render(gameContainer, graphics);
+        joingame.render(gameContainer, graphics);
+        settings.render(gameContainer, graphics);
+        quitgame.render(gameContainer, graphics);
 
         // Render the textinputs
         // port.render(gc, graphics);
@@ -116,9 +120,6 @@ public class MainMenu extends BasicGameState {
 
     public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
         Input input = gameContainer.getInput();
-
-        fig2.Controller(gameContainer, delta);
-        fig2.rotateTowardsMouse(gameContainer);
 
         // Particle System
         system.update(delta);
@@ -129,8 +130,7 @@ public class MainMenu extends BasicGameState {
      * Main Menu particle effect
      * @throws SlickException
      */
-    public void MainMenuParticleSystem() throws SlickException
-    {
+    public void MainMenuParticleSystem() throws SlickException {
         Image image = new Image("data/bullets/bullet01.png", false);
         Image image_1 = new Image("data/particle.png", false);
         system = new ParticleSystem(image_1, 1500);

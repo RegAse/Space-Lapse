@@ -1,9 +1,7 @@
 package com.spacelapse;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
+import com.spacelapse.resourcemanager.Fonts;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 
 import javax.swing.event.EventListenerList;
@@ -23,6 +21,7 @@ public class TextButton{
     private Color color;
     private Color hoverColor;
     private boolean _pressed;
+    private TrueTypeFont font = Fonts.getImpact();
 
     public TextButton(String content, float x, float y, float width, float height, Color color, Color hoverColor) {
         this.content = content;
@@ -33,15 +32,19 @@ public class TextButton{
         this.hoverColor = hoverColor;
     }
 
-    public void render(GameContainer gc, Graphics g) {
-        g.setColor(color);
-        Input input = gc.getInput();
-        if (input.getMouseX() >= position.x && input.getMouseX() <= position.x + width) {
-            if (input.getMouseY() >= position.y && input.getMouseY() <= position.y + height) {
+    public void render(GameContainer gameContainer, Graphics graphics) {
+        Font oldFont = graphics.getFont();
+        Color oldColor = graphics.getColor();
+
+        graphics.setFont(font);
+        graphics.setColor(color);
+        Input input = gameContainer.getInput();
+        if (input.getMouseX() >= position.x && input.getMouseX() <= position.x + font.getWidth(this.content)) {
+            if (input.getMouseY() >= position.y && input.getMouseY() <= position.y + font.getHeight(this.content)) {
                 if (input.isMouseButtonDown(input.MOUSE_LEFT_BUTTON)) {
                     _pressed = true;
                 }
-                g.setColor(this.hoverColor);
+                graphics.setColor(this.hoverColor);
                 if (_pressed && !input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
                     _pressed = false;
                     fireMyEvent(new ClickEvent(this));
@@ -50,10 +53,19 @@ public class TextButton{
         }
 
         // Render the TextButton
-        g.drawString(content, position.x, position.y);
+        graphics.drawString(content, position.x, position.y);
 
-        // Reset color
-        g.setColor(Color.white);
+        // Reset graphics values
+        graphics.setColor(oldColor);
+        graphics.setFont(oldFont);
+    }
+
+    public void setFont(TrueTypeFont font1) {
+        this.font = font1;
+    }
+
+    public TrueTypeFont getFont() {
+        return this.font;
     }
 
     public void setHoverColor(Color color)

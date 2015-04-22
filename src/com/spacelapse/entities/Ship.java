@@ -1,6 +1,7 @@
 package com.spacelapse.entities;
 
 import com.spacelapse.GameClient;
+import com.spacelapse.MainMenu;
 import com.spacelapse.Response;
 import com.spacelapse.Survival;
 import com.spacelapse.resourcemanager.Textures;
@@ -75,11 +76,15 @@ public class Ship extends Entity{
      * Shoot method
      * this adds a bullet to the bullet list of a entities
      */
-    public void Shoot()
-    {
-        Bullet bullet = new Bullet(this.position.x, this.position.y, 0.3f, 30f, this.rotation, 20f);
-        Response response = new Response(bullet);
-        response.sendData();
+    public void Shoot() {
+        Bullet bullet = new Bullet(this.id, this.position.x, this.position.y, 0.3f, 10f, this.rotation, 10f);
+        if (GameClient.isInitialized) {
+            Response response = new Response(bullet);
+            response.sendData();
+        }
+        else {
+            MainMenu.entities.add(bullet);
+        }
     }
 
     @Override
@@ -93,35 +98,31 @@ public class Ship extends Entity{
     }
 
     @Override
-    public boolean intersects(Entity entity) throws SlickException {
+    public boolean intersects(Bullet bullet) throws SlickException {
         return false;
     }
 
     /**
      * Rotates entities towards mouse
      */
-    public void rotateTowardsMouse(GameContainer gameContainer)
-    {
+    public void rotateTowardsMouse(GameContainer gameContainer) {
         Input input = gameContainer.getInput();
         if (input.getControllerCount() > 0 && input.getAxisValue(0, 0) != 0) {
             /* for controller input */
             /* Calculates the angle of the entities according to the controllers axis */
             float newrotation = (float)Math.toDegrees(Math.atan2(input.getAxisValue(0, 0) , input.getAxisValue(0, 1)));
-            if (newrotation != rotation)
-            {
+            if (newrotation != rotation) {
                 rotation = newrotation;
                 hasChanged = true;
             }
         }
-        else
-        {
+        else {
             /* for mouse input */
             float xdist = input.getMouseX() - position.x;
             float ydist = input.getMouseY() - position.y;
 
             float newrotation = (float) Math.toDegrees(Math.atan2(ydist, xdist));
-            if (newrotation != rotation)
-            {
+            if (newrotation != rotation) {
                 rotation = newrotation;
                 hasChanged = true;
             }
@@ -131,8 +132,7 @@ public class Ship extends Entity{
     /**
      * updatePositionToServer
      */
-    public void updatePositionToServer()
-    {
+    public void updatePositionToServer() {
         if (GameClient.isInitialized && hasChanged) {
             Response response = new Response(this);
             response.sendData();
@@ -145,13 +145,5 @@ public class Ship extends Entity{
         }
         Shape shape = new Rectangle(position.x, position.y, 10, 10);
         return shape.intersects(new Rectangle(entity.position.x, entity.position.y, 10, 10));
-    }
-
-    public boolean intersects(Bullet bullet) throws SlickException {
-        if (bullet == null || bullet.position == null || position == null) {
-            return false;
-        }
-        Shape shape = new Rectangle(position.x, position.y, 10, 10);
-        return shape.intersects(new Rectangle(bullet.position.x, bullet.position.y, 10, 10));
     }
 }

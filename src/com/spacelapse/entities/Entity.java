@@ -32,7 +32,7 @@ public abstract class Entity{
 
     public abstract void render(GameContainer gameContainer, Graphics graphics) throws SlickException;
 
-    public abstract boolean intersects(Entity entity) throws SlickException;
+    public abstract boolean intersects(Bullet bullet) throws SlickException;
 
     public abstract float applyDamage(float damage);
 

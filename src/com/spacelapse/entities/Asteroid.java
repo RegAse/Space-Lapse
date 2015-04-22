@@ -27,11 +27,11 @@ public class Asteroid extends Entity{
     }
 
     @Override
-    public boolean intersects(Entity entity) throws SlickException {
-        if (entity == null || entity.position == null || position == null){
+    public boolean intersects(Bullet bullet) throws SlickException {
+        if (bullet == null || bullet.position == null || position == null){
             return false;
         }
-        Shape shape = new Rectangle(entity.position.x, entity.position.y, 10, 10);
+        Shape shape = new Rectangle(bullet.position.x, bullet.position.y, 10, 10);
         Image texture = Textures.getAsteroid();
         return shape.intersects(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }

@@ -6,7 +6,6 @@ import com.spacelapse.entities.Bullet;
 import com.spacelapse.Response;
 import com.spacelapse.entities.*;
 import com.spacelapse.resourcemanager.Fonts;
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 
 import java.io.DataInputStream;
@@ -39,6 +38,7 @@ public class GameServer extends BasicGame{
      */
     private static int next_entity_id = 0;
     private static ArrayList<Entity> entities = new ArrayList<>();
+    private static ArrayList<Integer> entitiesToBeDestroyed = new ArrayList<>();
 
     public static int getNextEntityId(){
         return next_entity_id++;
@@ -61,18 +61,26 @@ public class GameServer extends BasicGame{
             public void run() {
                 try {
                     //entities.add(new Enforcer(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
-                    entities.add(new Asteroid(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
+                    entities.add(new Asteroid(100 + random.nextInt(200), 200 + random.nextInt(20), 0.5f, 30f));
                     sendGameData();// Concurrent mod error
-                    System.out.println("Lel");
                 } catch (SlickException e) {
                     e.printStackTrace();
                 }
             }
-        }, 1*7*1000, 1*7*1000);
+        }, 1*1*1000, 1*1*1000);
     }
 
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
+        int i = - 1;
+        while (++i < entities.size()) {
+            Entity entity = entities.get(i);
+            if (entitiesToBeDestroyed.contains(entity.id)) {
+                entities.remove(entity);
+                entitiesToBeDestroyed.remove((Integer)entity.id);
+            }
+        }
+
         boolean f = false;
         /* Server bullet process */
         for (int i1 = 0; i1 < entities.size(); i1++) {
@@ -282,7 +290,7 @@ public class GameServer extends BasicGame{
      * @param  entity the entities to remove
      */
     public static void removeEntity(Entity entity) {
-        entities.remove(entity);
+        entitiesToBeDestroyed.add(entity.id);
         Response response = new Response();
         response.removeEntity(entity.id);
         Gson gson = new Gson();
@@ -360,7 +368,6 @@ public class GameServer extends BasicGame{
                 connectedSockets.remove(i);
                 connectionsStatus();
             }
-
         }
     }
 }

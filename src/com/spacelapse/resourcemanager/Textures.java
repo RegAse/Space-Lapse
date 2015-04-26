@@ -5,35 +5,43 @@ import org.newdawn.slick.SlickException;
 
 public class Textures {
 
-    private static Image Fighter;
+    private static Image fighter;
 
     public static Image getFighter() throws SlickException {
-        if (Fighter == null)
-            Fighter = new Image("data/ships/Fighter/Fighter.png", false);
-        return Fighter;
+        if (fighter == null)
+            fighter = new Image("data/ships/Fighter/Fighter.png", false);
+        return fighter;
     }
 
-    private static Image Enforcer;
+    private static Image enforcer;
 
     public static Image getEnforcer() throws SlickException {
-        if (Enforcer == null)
-            Enforcer = new Image("data/ships/Enforcer/Enforcer.png", false);
-        return Enforcer;
+        if (enforcer == null)
+            enforcer = new Image("data/ships/Enforcer/Enforcer.png", false);
+        return enforcer;
     }
 
-    private static Image Asteroid;
+    private static Image asteroid;
 
     public static Image getAsteroid() throws SlickException {
-        if (Asteroid == null)
-            Asteroid = new Image("data/rocks/rock.png", false);
-        return Asteroid;
+        if (asteroid == null)
+            asteroid = new Image("data/rocks/rock.png", false);
+        return asteroid;
     }
 
-    private static Image Bullet;
+    private static Image bullet;
 
     public static Image getBullet() throws SlickException {
-        if (Bullet == null)
-            Bullet = new Image("data/bullets/bullet01_tiny2.png", false);
-        return Bullet;
+        if (bullet == null)
+            bullet = new Image("data/bullets/bullet01_tiny2.png", false);
+        return bullet;
+    }
+
+    private static Image spaceBackground;
+
+    public static Image getSpaceBackground() throws SlickException {
+        if (spaceBackground == null)
+            spaceBackground = new Image("data/backgrounds/space_highres.png", false);
+        return spaceBackground;
     }
 }

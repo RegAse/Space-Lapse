@@ -27,20 +27,20 @@ public class Game extends StateBasedGame {
         return next_entity_id++;
     }
 
-    public void initStatesList(GameContainer gc) throws SlickException {
+    public void initStatesList(GameContainer gameContainer) throws SlickException {
         //this.getState(survival).init(gc, this); -> useless
 
-        GameClient gameclient = new GameClient();
-        gameclient.JoinGame("localhost", 8976);
+        //GameClient gameclient = new GameClient();
+        //gameclient.JoinGame("localhost", 8976);
 
-        this.enterState(survival);
+        this.enterState(mainmenu);
     }
 
     public static void main(String[] arguments) {
         try {
             AppGameContainer app = new AppGameContainer(new Game());
             app.setDisplayMode(800, 600, false);
-            app.setShowFPS(false); // set to false later
+            app.setShowFPS(true); // set to false later
             app.setAlwaysRender(true);
             app.start();
         }

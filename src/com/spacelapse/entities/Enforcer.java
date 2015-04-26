@@ -30,7 +30,8 @@ public class Enforcer extends Ship{
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
 
-        graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
+        // Debug display collider
+        //graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }
 
     /**

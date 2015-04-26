@@ -23,7 +23,8 @@ public class Asteroid extends Entity{
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());
 
-        graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
+        // Debug display collider
+        //graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }
 
     @Override
@@ -33,7 +34,9 @@ public class Asteroid extends Entity{
         }
         Shape shape = new Rectangle(bullet.position.x, bullet.position.y, 10, 10);
         Image texture = Textures.getAsteroid();
-        return shape.intersects(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
+        float textureWidth = texture.getWidth();
+        float textureHeight = texture.getHeight();
+        return shape.intersects(new Rectangle(position.x - (textureWidth / 2) - 10, position.y - (textureHeight / 2) - 10, textureWidth, textureHeight));
     }
 
     @Override

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:se="http://svg-edit.googlecode.com" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="777" height="480">
+                                    <title>my vector image</title>
+                                    <!-- Created with Vector Paint - http://www.vectorpaint.yaks.com/ https://chrome.google.com/webstore/detail/hnbpdiengicdefcjecjbnjnoifekhgdo -->
+                                    <rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="#FFFFFF" stroke="none"/>
+                                <g class="currentLayer"><title>Layer 1</title><path fill="#990000" fill-opacity="1" stroke="#e84141" stroke-opacity="1" stroke-width="2" stroke-dasharray="none" stroke-linejoin="round" stroke-linecap="butt" stroke-dashoffset="" fill-rule="nonzero" opacity="1" marker-start="" marker-mid="" marker-end="" d="M161,375 C161,352.34808349609375 274.8922882080078,334 415.5000305175781,334 C556.1077880859375,334 670.0000610351562,352.34808349609375 670.0000610351562,375 C670.0000610351562,397.65191650390625 556.1077880859375,416 415.5000305175781,416 C274.8922882080078,416 161,397.65191650390625 161,375 z" id="svg_1" class="" filter="url(#f213)"/></g><defs><filter id="f213" inkscape:label="Inner Glow" inkscape:menu="Shadows and Glows" inkscape:menu-tooltip="Adds a colorizable glow inside" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="10" result="result8"/>
+            <feComposite result="result6" in="SourceGraphic" operator="in" in2="result8"/>
+            <feComposite operator="in" result="result11" in2="result6"/>
+            <feFlood result="result10" in="result11" flood-opacity="1" flood-color="#ffde55"/>
+            <feBlend mode="normal" in="result11" in2="result10" result="result12"/>
+            <feComposite result="result2" operator="in" in2="SourceGraphic" in="result12"/>
+        </filter></defs></svg>

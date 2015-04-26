@@ -91,7 +91,7 @@ public class GameClient extends Thread{
      * @param response object from client
      * @param field from the response object
      */
-    private void processField(Response response, Field field) {
+    private synchronized void processField(Response response, Field field) {
         switch(field.getName()){
             case "enforcer":
                 Ship ship = response.enforcer;
@@ -113,7 +113,7 @@ public class GameClient extends Thread{
                 int id = response.removeEntity;
                 for (int i = 0; i < Survival.entities.size(); i++) {
                     if (Survival.entities.get(i).id == id){
-                        Survival.entities.remove(i);
+                        Survival.entitiesToBeDestroyed.add(id);
                     }
                 }
                 break;
@@ -132,7 +132,6 @@ public class GameClient extends Thread{
                 }
                 break;
             case "bullet":
-                System.out.println("I got a bullet");
                 Bullet bullet = response.bullet;
                 /*boolean f2 = false;
                 for (int i = 0; i < Survival.entities.size(); i++) {
@@ -146,7 +145,6 @@ public class GameClient extends Thread{
                     System.out.println("Adding to list");
                     Survival.entities.add(bullet);
                 }*/
-                System.out.println("Adding to list");
                 Survival.entities.add(bullet);
                 break;
         }

@@ -6,4 +6,5 @@ package com.spacelapse;
 public class GameSession {
 
     public static int playerCount;
+    public static int score;
 }

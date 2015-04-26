@@ -18,6 +18,14 @@ public class Fonts {
         return impact;
     }
 
+    public static TrueTypeFont getImpact(int fontSize) {
+        if (awt_impact == null || impact == null || awt_impact.getSize() != fontSize) {
+            awt_impact = new java.awt.Font("Impact", Font.PLAIN, fontSize);
+            impact = new TrueTypeFont(awt_impact, true);
+        }
+        return impact;
+    }
+
     public static void setFontSize(Integer size) {
         fontSize = size;
 

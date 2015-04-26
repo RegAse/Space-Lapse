@@ -77,7 +77,7 @@ public class Ship extends Entity{
      * this adds a bullet to the bullet list of a entities
      */
     public void Shoot() {
-        Bullet bullet = new Bullet(this.id, this.position.x, this.position.y, 0.3f, 10f, this.rotation, 10f);
+        Bullet bullet = new Bullet(this.id, this.position.x, this.position.y, 1.3f, 10f, this.rotation, 10f);
         if (GameClient.isInitialized) {
             Response response = new Response(bullet);
             response.sendData();

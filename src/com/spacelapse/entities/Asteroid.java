@@ -1,6 +1,8 @@
 package com.spacelapse.entities;
 
+import com.spacelapse.Survival;
 import com.spacelapse.resourcemanager.Textures;
+import com.spacelapse.server.GameServer;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -37,7 +39,7 @@ public class Asteroid extends Entity{
         if (bullet == null || bullet.position == null || position == null){
             return false;
         }
-        Shape shape = new Rectangle(bullet.position.x, bullet.position.y, 10, 10);
+        Shape shape = new Rectangle(bullet.position.x, bullet.position.y, 15, 15);
         Image texture = Textures.getAsteroid();
         float textureWidth = texture.getWidth();
         float textureHeight = texture.getHeight();
@@ -60,5 +62,10 @@ public class Asteroid extends Entity{
 
         position.x += dir.x * speed;
         position.y += dir.y * speed;
+        if(position.distance(target) < 1.4f) {
+            if (GameServer.isInitialized) {
+                GameServer.entitiesToBeDestroyed.add(id);
+            }
+        }
     }
 }

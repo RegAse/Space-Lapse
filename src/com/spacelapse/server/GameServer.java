@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.TimerTask;
-import java.util.Timer;
+import java.util.*;
 
 public class GameServer extends BasicGame{
 
@@ -40,8 +37,8 @@ public class GameServer extends BasicGame{
      * Game variables
      */
     private static int next_entity_id = 0;
-    private static ArrayList<Entity> entities = new ArrayList<>();
-    public static ArrayList<Integer> entitiesToBeDestroyed = new ArrayList<>();
+    private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
+    public static List<Integer> entitiesToBeDestroyed = Collections.synchronizedList(new ArrayList<>());
 
     public static int getNextEntityId(){
         return next_entity_id++;
@@ -72,11 +69,11 @@ public class GameServer extends BasicGame{
                 }
                 else if (rand == 2) {
                     // Right
-                    asteroid = new Asteroid(width, random.nextInt(height), 0.5f, 30f, 0, random.nextInt(height));
+                    asteroid = new Asteroid(width, random.nextInt(height), 0.5f, random.nextInt(40), 0, random.nextInt(height));
                 }
                 else if (rand == 3) {
                     // Top
-                    asteroid = new Asteroid(random.nextInt(width), 0, 0.5f, 30f, random.nextInt(width), height);
+                    asteroid = new Asteroid(random.nextInt(width), 0, 0.5f, random.nextInt(40), random.nextInt(width), height);
                 }
                 else if (rand == 4) {
                     // Bottom
@@ -84,12 +81,16 @@ public class GameServer extends BasicGame{
                 }
                 entities.add(asteroid);
 
-                Gson gson = new Gson();
-                Response response = new Response(asteroid);
-                sendJsonToAll(gson.toJson(response));
-
+                //Gson gson = new Gson();
+                //Response response = new Response(asteroid);
+                //sendJsonToAll(gson.toJson(response));
+                try {
+                    sendGameData();
+                } catch (SlickException e) {
+                    System.out.println("Error trying send game data in asteroid creation");
+                }
             }
-        }, 1*1*400, 1*1*400);
+        }, 1*1*700, 1*1*700);
     }
 
     @Override
@@ -100,6 +101,7 @@ public class GameServer extends BasicGame{
             if (entity != null && entitiesToBeDestroyed.contains(entity.id)) {
                 entities.remove(entity);
                 entitiesToBeDestroyed.remove((Integer)entity.id);
+                removeEntity(entity);
             }
         }
 
@@ -137,7 +139,7 @@ public class GameServer extends BasicGame{
             }
             else if (entity != null && entity instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid)entity;
-                asteroid.moveTowardsTarget(0.1f);
+                asteroid.moveTowardsTarget(0.2f);
             }
         }
     }
@@ -171,6 +173,7 @@ public class GameServer extends BasicGame{
             app.setDisplayMode(800, 600, false);
             app.setShowFPS(false); // set to false later
             app.setAlwaysRender(true);
+            app.setTargetFrameRate(60);
             app.start();
         }
         catch (SlickException e) {
@@ -223,6 +226,7 @@ public class GameServer extends BasicGame{
                        listenToClient(new_connection, receive_from_client);
                    }
                });
+               t.setPriority(Thread.MAX_PRIORITY);
                t.start();
            } catch (IOException e) {
                System.out.println("Connection to pending client failed.");
@@ -285,6 +289,9 @@ public class GameServer extends BasicGame{
                     Entity entity = entities.get(i);
                     if (entity != null && ship.id == entities.get(i).id) {
                         entities.set(i, ship);
+                        if (ship.health <= 0) {
+                            entitiesToBeDestroyed.add(ship.id);
+                        }
                     }
                 }
                 break;

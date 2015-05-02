@@ -55,4 +55,15 @@ public class Enforcer extends Ship{
         Image texture = Textures.getEnforcer();
         return shape.intersects(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }
+
+    @Override
+    public boolean intersects(Asteroid entity) throws SlickException {
+        if (entity == null || entity.position == null || position == null) {
+            return false;
+        }
+        Image ast = Textures.getAsteroid();
+        Shape shape = new Rectangle(entity.position.x - (ast.getWidth() / 2), entity.position.y - (ast.getHeight() / 2), ast.getWidth() - 5, ast.getHeight() - 5);
+        Image texture = Textures.getEnforcer();
+        return shape.intersects(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
+    }
 }

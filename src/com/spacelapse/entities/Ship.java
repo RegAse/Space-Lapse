@@ -38,16 +38,16 @@ public class Ship extends Entity{
         *  Supports game controllers
         *  PS4
         * */
-        if (((input.getControllerCount() > 0 && input.isControllerRight(0)) || input.isKeyDown(Input.KEY_D)) && gameContainer.getWidth() >= this.position.x + speed * delta) {
+        if (((Game.hasController && input.isControllerRight(0)) || input.isKeyDown(Input.KEY_D)) && gameContainer.getWidth() >= this.position.x + speed * delta) {
             this.position.x += speed * delta;
             hasChanged = true;
         }
-        else if (((input.getControllerCount() > 0 && input.isControllerLeft(0)) || input.isKeyDown(Input.KEY_A)) && 0 <= this.position.x + speed * delta) {
+        else if (((Game.hasController && input.isControllerLeft(0)) || input.isKeyDown(Input.KEY_A)) && 0 <= this.position.x + speed * delta) {
             this.position.x -= speed * delta;
             hasChanged = true;
         }
 
-        if (((input.getControllerCount() > 0 && input.isControllerUp(0)) || input.isKeyDown(Input.KEY_W)) && 0 <= this.position.y + speed * delta) {
+        if (((Game.hasController && input.isControllerUp(0)) || input.isKeyDown(Input.KEY_W)) && 0 <= this.position.y + speed * delta) {
             this.position.y -= speed * delta;
             hasChanged = true;
         } else if (((input.getControllerCount() > 0 && input.isControllerDown(0)) || input.isKeyDown(Input.KEY_S)) && gameContainer.getHeight() >= this.position.y + speed * delta) {
@@ -56,7 +56,7 @@ public class Ship extends Entity{
         }
 
 
-        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || (input.getControllerCount() > 0  && input.isButtonPressed(7, 0))) {
+        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || (Game.hasController  && input.isButtonPressed(7, 0))) {
             time -= delta;
             if (time <= 0) {
                 Shoot();
@@ -133,7 +133,7 @@ public class Ship extends Entity{
         }
     }
 
-    public boolean intersects(Ship entity) throws SlickException {
+    public boolean intersects(Asteroid entity) throws SlickException {
         if (entity == null || entity.position == null || position == null) {
             return false;
         }

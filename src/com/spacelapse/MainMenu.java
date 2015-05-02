@@ -69,14 +69,14 @@ public class MainMenu extends BasicGameState {
         // Buttons
         Color color = Color.white;
         Color hoverColor = Color.darkGray;
-        hostgame = new TextButton("Host Game", menu, 140, 120, 40, color, hoverColor);
-        joingame = new TextButton("Join Game", menu, 180, 120, 40, color, hoverColor);
-        settings = new TextButton("Settings", menu, 220, 120, 40, color, hoverColor);
-        quitgame = new TextButton("Quit Game", menu, 260, 120, 40, color, hoverColor);
+        //hostgame = new TextButton("Host Game", menu, 140, 120, 40, color, hoverColor);
+        joingame = new TextButton("Join Game", menu, 140, 120, 40, color, hoverColor);
+        settings = new TextButton("Settings", menu, 180, 120, 40, color, hoverColor);
+        quitgame = new TextButton("Quit Game", menu, 220, 120, 40, color, hoverColor);
 
         // Inputs
         port = new TextInput();
-
+        /*
         hostgame.addOnClickEventListener(new ClickEventListener() {
             @Override
             public void onClickEvent(ClickEvent evt) {
@@ -87,13 +87,14 @@ public class MainMenu extends BasicGameState {
                 } catch (IOException e) {
                     System.out.println("Error starting server executable file");
                 }
-                System.out.println("Started server jar file");*/
+                System.out.println("Started server jar file");
 
                 GameClient gameclient = new GameClient();
                 gameclient.JoinGame("localhost", 8976);
                 sbg.enterState(2); // Enter Join State
             }
         });
+        */
         joingame.addOnClickEventListener(new ClickEventListener() {
             @Override
             public void onClickEvent(ClickEvent evt) {
@@ -121,8 +122,8 @@ public class MainMenu extends BasicGameState {
         graphics.drawImage(Textures.getSpaceBackground(), - 500, - 500);
         Fonts.setFontSize(30);
         graphics.setFont(Fonts.getImpact());
-        //system2.render();
-        //system.render();
+        system2.render();
+        system.render();
         Input input = gameContainer.getInput();
         graphics.setBackground(Color.darkGray.darker(0.6f));
 
@@ -136,8 +137,8 @@ public class MainMenu extends BasicGameState {
         graphics.drawString("Space Lapse", menu - 60, 80);
 
         // Render the buttons
-        hostgame.setFont(Fonts.getImpact());
-        hostgame.render(gameContainer, graphics);
+        //hostgame.setFont(Fonts.getImpact());
+        //hostgame.render(gameContainer, graphics);
         joingame.setFont(Fonts.getImpact());
         joingame.render(gameContainer, graphics);
         settings.render(gameContainer, graphics);

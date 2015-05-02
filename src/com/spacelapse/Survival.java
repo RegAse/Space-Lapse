@@ -1,14 +1,9 @@
 package com.spacelapse;
 
-import com.spacelapse.entities.Asteroid;
-import com.spacelapse.entities.Bullet;
-import com.spacelapse.entities.Entity;
-import com.spacelapse.entities.Ship;
+import com.spacelapse.entities.*;
 import com.spacelapse.resourcemanager.Fonts;
 import com.spacelapse.resourcemanager.Textures;
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -26,8 +21,13 @@ public class Survival extends BasicGameState{
     * TODO need to add destroy queue that is synchronized then emptied in the update function
     * */
     public static int my_id;
+    public static Enforcer my_ship;
+    public static float health;
     public Player player;
     public static GameSession gameSession;
+    public static boolean gameOver = false;
+    private Font font30;
+    private Font font22;
 
     public synchronized void changeEntity(Integer i, Entity entity) {
         entities.set(i, entity);
@@ -36,6 +36,8 @@ public class Survival extends BasicGameState{
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         player = player.loadPlayer();
         gameSession = new GameSession(0, 0, 0);
+        font22 = Fonts.getImpact(22);
+        font30 = Fonts.getImpact(30);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
@@ -46,10 +48,16 @@ public class Survival extends BasicGameState{
                 entity.render(gc, graphics);
                 if (entity instanceof Ship && entity.id == my_id) {
                     // Do something if this is my ship
+                    health = entity.health;
+                    my_ship = (Enforcer) entity;
                 }
             }
         }
         renderHUD(gc, sbg, graphics);
+        if (gameOver) {
+            graphics.setFont(font30);
+            graphics.drawString("Game Over", 300, 300);
+        }
     }
 
     /**
@@ -60,10 +68,11 @@ public class Survival extends BasicGameState{
      * @throws SlickException
      */
     public void renderHUD(GameContainer gameContainer, StateBasedGame sbg, Graphics graphics) throws SlickException {
-        graphics.setFont(Fonts.getImpact(18));
-        graphics.drawString(player.screenName + " Level " + player.level, 10, 10);
-        graphics.drawString("Playercount: " + gameSession.playerCount + " Score: " + gameSession.score, 500, 500);
-        graphics.drawString("PlayerCount: " + entities.size(), 40, 40);
+        graphics.setFont(font22);
+        //graphics.drawString(player.screenName + " Level " + player.level, 10, 10);
+        graphics.drawString("Score: " + gameSession.score, 10, 20);
+        graphics.drawString(health + "%", gameContainer.getWidth() - 100, 20);
+        //graphics.drawString("PlayerCount: " + entities.size(), 50, 50);
     }
 
     public void update(GameContainer gameContainer, StateBasedGame sbg, int delta) throws SlickException {
@@ -74,6 +83,12 @@ public class Survival extends BasicGameState{
             if (entity != null && entitiesToBeDestroyed.contains(entity.id)) {
                 entities.remove(entity);
                 entitiesToBeDestroyed.remove((Integer)entity.id);
+                if (entity.id == my_id) {
+                    gameOver = true;
+                    Ship ship = (Ship)entity;
+                    health = ship.health;
+                    my_ship = (Enforcer)ship;
+                }
             }
         }
 
@@ -105,7 +120,16 @@ public class Survival extends BasicGameState{
             }
             else if (entity != null && entity instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid)entity;
-                asteroid.moveTowardsTarget(0.1f);
+                asteroid.moveTowardsTarget(0.190f);
+
+                if (my_ship != null && my_ship.intersects(asteroid) && health > 0) {
+                    my_ship.health -= 2;
+                    if (my_ship.health <= 0) {
+                        gameOver = true;
+                    }
+                    Response response = new Response(my_ship);
+                    response.sendData();
+                }
             }
         }
     }

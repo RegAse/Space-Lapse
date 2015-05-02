@@ -6,7 +6,6 @@ import com.spacelapse.entities.Entity;
 import com.spacelapse.entities.Ship;
 import com.spacelapse.entities.Bullet;
 
-import javax.print.attribute.SupportedValuesAttribute;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -126,7 +125,6 @@ public class GameClient extends Thread{
                 for (int i = 0; i < Survival.entities.size(); i++) {
                     if (Survival.entities.get(i).id == asteroid.id) {
                         asteroid.rotation = Survival.entities.get(i).rotation;
-                        asteroid.position = Survival.entities.get(i).position;
                         Survival.entities.set(i, asteroid);
                         f1 = true;
                         break;
@@ -153,7 +151,7 @@ public class GameClient extends Thread{
                 Survival.entities.add(bullet);
                 break;
             case "gameSession":
-                System.out.println("Got gameSession data");
+                //System.out.println("Got gameSession data");
                 GameSession gameSession = response.gameSession;
                 Survival.gameSession = gameSession;
                 break;

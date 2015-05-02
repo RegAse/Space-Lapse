@@ -1,9 +1,7 @@
 package com.spacelapse.entities;
 
-import com.spacelapse.GameClient;
-import com.spacelapse.MainMenu;
-import com.spacelapse.Response;
-import com.spacelapse.Survival;
+import com.spacelapse.*;
+import com.spacelapse.Game;
 import com.spacelapse.resourcemanager.Textures;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
@@ -27,10 +25,6 @@ public class Ship extends Entity{
 
     public float applyDamage(float damage) {
         return this.health -= damage;
-    }
-
-    public void renderShipUI(GameContainer gameContainer, Graphics graphics) {
-        graphics.drawString("Score: " + score, 500, 20);
     }
 
     /**
@@ -107,7 +101,7 @@ public class Ship extends Entity{
      */
     public void rotateTowardsMouse(GameContainer gameContainer) {
         Input input = gameContainer.getInput();
-        if (input.getControllerCount() > 0 && input.getAxisValue(0, 0) != 0) {
+        if (input.getControllerCount() > 0 && Game.hasController && input.getAxisValue(0, 0) != 0) {
             /* for controller input */
             /* Calculates the angle of the entities according to the controllers axis */
             float newrotation = (float)Math.toDegrees(Math.atan2(input.getAxisValue(0, 0) , input.getAxisValue(0, 1)));

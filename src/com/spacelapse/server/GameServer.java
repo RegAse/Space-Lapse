@@ -2,11 +2,13 @@ package com.spacelapse.server;
 
 
 import com.google.gson.Gson;
+import com.spacelapse.GameSession;
 import com.spacelapse.entities.Bullet;
 import com.spacelapse.Response;
 import com.spacelapse.entities.*;
 import com.spacelapse.resourcemanager.Fonts;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,6 +32,7 @@ public class GameServer extends BasicGame{
     private static int portNumber = 8976;
     private static ServerSocket socket;
     private static ArrayList<Socket> connectedSockets = new ArrayList<Socket>();
+    public static GameSession gameSession = new GameSession(0, 0, 0);
     private Random random;
     private Timer timer;
 
@@ -38,7 +41,7 @@ public class GameServer extends BasicGame{
      */
     private static int next_entity_id = 0;
     private static ArrayList<Entity> entities = new ArrayList<>();
-    private static ArrayList<Integer> entitiesToBeDestroyed = new ArrayList<>();
+    public static ArrayList<Integer> entitiesToBeDestroyed = new ArrayList<>();
 
     public static int getNextEntityId(){
         return next_entity_id++;
@@ -59,15 +62,34 @@ public class GameServer extends BasicGame{
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    //entities.add(new Enforcer(100 + random.nextInt(100), 200 + random.nextInt(20), 0.5f, 30f));
-                    entities.add(new Asteroid(100 + random.nextInt(200), 200 + random.nextInt(20), 0.5f, 30f));
-                    sendGameData();// Concurrent mod error
-                } catch (SlickException e) {
-                    e.printStackTrace();
+                int rand = random.nextInt(4);
+                int width = gameContainer.getWidth();
+                int height = gameContainer.getHeight();
+                Asteroid asteroid = null;
+                if (rand == 1) {
+                    // Left
+                    asteroid = new Asteroid(0, random.nextInt(height), 0.5f, 30f, width, random.nextInt(height));
                 }
+                else if (rand == 2) {
+                    // Right
+                    asteroid = new Asteroid(width, random.nextInt(height), 0.5f, 30f, 0, random.nextInt(height));
+                }
+                else if (rand == 3) {
+                    // Top
+                    asteroid = new Asteroid(random.nextInt(width), 0, 0.5f, 30f, random.nextInt(width), height);
+                }
+                else if (rand == 4) {
+                    // Bottom
+                    asteroid = new Asteroid(random.nextInt(width), height, 0.5f, 30f, random.nextInt(width), 0);
+                }
+                entities.add(asteroid);
+
+                Gson gson = new Gson();
+                Response response = new Response(asteroid);
+                sendJsonToAll(gson.toJson(response));
+
             }
-        }, 1*1*1000, 1*1*1000);
+        }, 1*1*400, 1*1*400);
     }
 
     @Override
@@ -75,7 +97,7 @@ public class GameServer extends BasicGame{
         int i = - 1;
         while (++i < entities.size()) {
             Entity entity = entities.get(i);
-            if (entitiesToBeDestroyed.contains(entity.id)) {
+            if (entity != null && entitiesToBeDestroyed.contains(entity.id)) {
                 entities.remove(entity);
                 entitiesToBeDestroyed.remove((Integer)entity.id);
             }
@@ -94,11 +116,13 @@ public class GameServer extends BasicGame{
                 for (int i2 = 0; i2 < entities.size(); i2++) {
                     Entity entity2 = entities.get(i2);
 
-                    if (!(entity2 instanceof Bullet) && entity2.intersects(bullet) && entity2.id != bullet.ownerId) {
+                    if (entity2 != null && !(entity2 instanceof Bullet) && entity2.intersects(bullet) && entity2.id != bullet.ownerId) {
                         entity2.applyDamage(bullet.damage);
 
                         if (entity2.health <= 0) {
                             removeEntity(entity2);
+                            gameSession.score += 10;
+                            sendGameSessionData();
                         }
                         else {
                             sendEntityData(entity2);
@@ -110,6 +134,10 @@ public class GameServer extends BasicGame{
                 }
 
                 bullet.addForceToBullet(gameContainer, delta);
+            }
+            else if (entity != null && entity instanceof Asteroid) {
+                Asteroid asteroid = (Asteroid)entity;
+                asteroid.moveTowardsTarget(0.1f);
             }
         }
     }
@@ -184,6 +212,8 @@ public class GameServer extends BasicGame{
 
                try {
                    newPlayer();
+                   gameSession.playerCount = connectedSockets.size();
+                   sendGameSessionData();
                } catch (SlickException e) {
                    e.printStackTrace();
                }
@@ -252,7 +282,8 @@ public class GameServer extends BasicGame{
                 Enforcer ship = response.enforcer;
 
                 for (int i = 0; i < entities.size(); i++) {
-                    if (ship.id == entities.get(i).id) {
+                    Entity entity = entities.get(i);
+                    if (entity != null && ship.id == entities.get(i).id) {
                         entities.set(i, ship);
                     }
                 }
@@ -299,31 +330,44 @@ public class GameServer extends BasicGame{
     }
 
     public static void sendEntityData(Entity entity) throws SlickException {
-        if (entity instanceof Enforcer){
-            Response dm = new Response((Enforcer) entity);
-            Gson gson = new Gson();
-            String json = gson.toJson(dm);
-            System.out.println(json);
-            sendJsonToAll(json);
-        }
-        else if(entity instanceof Fighter) {
-            Response dm = new Response((Fighter) entity);
-            Gson gson = new Gson();
-            String json = gson.toJson(dm);
-            sendJsonToAll(json);
-        }
-        else if(entity instanceof Asteroid){
-            Response dm = new Response((Asteroid) entity);
-            Gson gson = new Gson();
-            String json = gson.toJson(dm);
-            sendJsonToAll(json);
-        }
-        else if (entity instanceof Bullet) {
-            Response dm = new Response((Bullet) entity);
-            Gson gson = new Gson();
-            String json = gson.toJson(dm);
-            sendJsonToAll(json);
-        }
+       try{
+           if (entity instanceof Enforcer){
+               Response dm = new Response((Enforcer) entity);
+               Gson gson = new Gson();
+               String json = gson.toJson(dm);
+               System.out.println(json);
+               sendJsonToAll(json);
+           }
+           else if(entity instanceof Fighter) {
+               Response dm = new Response((Fighter) entity);
+               Gson gson = new Gson();
+               String json = gson.toJson(dm);
+               sendJsonToAll(json);
+           }
+           else if(entity instanceof Asteroid){
+               Response dm = new Response((Asteroid) entity);
+               Gson gson = new Gson();
+               String json = gson.toJson(dm);
+               sendJsonToAll(json);
+           }
+           else if (entity instanceof Bullet) {
+               Response dm = new Response((Bullet) entity);
+               Gson gson = new Gson();
+               String json = gson.toJson(dm);
+               sendJsonToAll(json);
+           }
+       } catch(Exception ex) {
+           System.out.println("json error");
+       }
+    }
+
+    public static void sendGameSessionData() {
+        Response response = new Response();
+        response.setGameSession(gameSession);
+        Gson gson = new Gson();
+        String json = gson.toJson(response);
+        sendJsonToAll(json);
+        System.out.println("Send gamesession data");
     }
 
     public static void sendGameData() throws SlickException {
@@ -331,7 +375,7 @@ public class GameServer extends BasicGame{
         for (int i = entities.size() - 1; i >= 0; i--) {
             try {
                 Entity entity = entities.get(i);
-                if(!(entity instanceof Bullet)) {
+                if(entity != null && !(entity instanceof Bullet)) {
                     sendEntityData(entities.get(i));
                 }
             }catch (Exception ex){

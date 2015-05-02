@@ -1,5 +1,6 @@
 package com.spacelapse;
 
+import com.spacelapse.entities.Asteroid;
 import com.spacelapse.entities.Bullet;
 import com.spacelapse.entities.Entity;
 import com.spacelapse.entities.Ship;
@@ -25,26 +26,43 @@ public class Survival extends BasicGameState{
     * TODO need to add destroy queue that is synchronized then emptied in the update function
     * */
     public static int my_id;
+    public Player player;
+    public static GameSession gameSession;
 
     public synchronized void changeEntity(Integer i, Entity entity) {
         entities.set(i, entity);
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-
+        player = player.loadPlayer();
+        gameSession = new GameSession(0, 0, 0);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics graphics) throws SlickException {
         graphics.drawImage(Textures.getSpaceBackground(), -700, -700);
-
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
-            entity.render(gc, graphics);
-            if (entity instanceof Ship && entity.id == my_id) {
-                ((Ship)entity).renderShipUI(gc, graphics);
+            if (entity != null) {
+                entity.render(gc, graphics);
+                if (entity instanceof Ship && entity.id == my_id) {
+                    // Do something if this is my ship
+                }
             }
         }
+        renderHUD(gc, sbg, graphics);
+    }
 
+    /**
+     * Renders the heads up display
+     * @param gameContainer GameContainer context
+     * @param sbg StateBasedGame context
+     * @param graphics Graphics context
+     * @throws SlickException
+     */
+    public void renderHUD(GameContainer gameContainer, StateBasedGame sbg, Graphics graphics) throws SlickException {
+        graphics.setFont(Fonts.getImpact(18));
+        graphics.drawString(player.screenName + " Level " + player.level, 10, 10);
+        graphics.drawString("Playercount: " + gameSession.playerCount + " Score: " + gameSession.score, 500, 500);
         graphics.drawString("PlayerCount: " + entities.size(), 40, 40);
     }
 
@@ -53,7 +71,7 @@ public class Survival extends BasicGameState{
         int i3 = - 1;
         while (++i3 < entities.size()) {
             Entity entity = entities.get(i3);
-            if (entitiesToBeDestroyed.contains(entity.id)) {
+            if (entity != null && entitiesToBeDestroyed.contains(entity.id)) {
                 entities.remove(entity);
                 entitiesToBeDestroyed.remove((Integer)entity.id);
             }
@@ -62,20 +80,21 @@ public class Survival extends BasicGameState{
         for (int i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
 
-            if (entity instanceof Ship && entity.id == my_id) {
+            if (entity != null && entity instanceof Ship && entity.id == my_id) {
                 Ship ship = (Ship) entity;
                 ship.Controller(gameContainer, delta);
                 ship.rotateTowardsMouse(gameContainer);
                 ship.updatePositionToServer();
             }
-            else if (entity instanceof Bullet) {
+            else if (entity != null && entity instanceof Bullet) {
                 Bullet bullet = (Bullet) entity;
 
 
                 for (int i2 = entities.size() - 1; i2 >= 0; i2--) {
                     Entity entity2 = entities.get(i2);
 
-                    if (!(entity2 instanceof Bullet) && entity2.id != bullet.ownerId && entity2.intersects(bullet)) {
+                    if (entity2 != null && !(entity2 instanceof Bullet) && entity2.id != bullet.ownerId && entity2.intersects(bullet)) {
+
                         if (entity2.health <= 0) {
                             entitiesToBeDestroyed.add(entity2.id);
                         }
@@ -83,6 +102,10 @@ public class Survival extends BasicGameState{
                     }
                 }
                 bullet.addForceToBullet(gameContainer, delta);
+            }
+            else if (entity != null && entity instanceof Asteroid) {
+                Asteroid asteroid = (Asteroid)entity;
+                asteroid.moveTowardsTarget(0.1f);
             }
         }
     }

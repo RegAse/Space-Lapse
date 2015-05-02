@@ -8,6 +8,7 @@ public class Game extends StateBasedGame {
 
     public static final String GameName = "Space Lapse";
     public static final double VersionNumber = 0.02;
+    public static boolean hasController = false; // set to true when using controller
     public static boolean usingController = false;
     private static int next_entity_id;
 
@@ -40,7 +41,7 @@ public class Game extends StateBasedGame {
         try {
             AppGameContainer app = new AppGameContainer(new Game());
             app.setDisplayMode(800, 600, false);
-            app.setShowFPS(true); // set to false later
+            app.setShowFPS(false); // set to false later
             app.setAlwaysRender(true);
             app.start();
         }

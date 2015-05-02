@@ -5,6 +5,13 @@ package com.spacelapse;
  */
 public class GameSession {
 
-    public static int playerCount;
-    public static int score;
+    public int playerCount;
+    public int score;
+    public int wave;
+
+    public GameSession(int playerCount, int score, int wave) {
+        this.playerCount = playerCount;
+        this.score = score;
+        this.wave = wave;
+    }
 }

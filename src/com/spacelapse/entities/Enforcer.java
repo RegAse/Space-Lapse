@@ -25,7 +25,7 @@ public class Enforcer extends Ship{
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         Image texture = Textures.getEnforcer();
         Input input = gameContainer.getInput();
-        graphics.drawString(Integer.toString(this.id) + " hp: " + this.health, position.getX(), position.getY() - (texture.getHeight()/ 2) - 20);
+        //graphics.drawString(Integer.toString(this.id) + " hp: " + this.health, position.getX(), position.getY() - (texture.getHeight()/ 2) - 20);
 
         texture.setRotation(rotation + 90f);
         texture.drawCentered(position.getX(), position.getY());

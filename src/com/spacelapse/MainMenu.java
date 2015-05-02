@@ -81,16 +81,14 @@ public class MainMenu extends BasicGameState {
             @Override
             public void onClickEvent(ClickEvent evt) {
                 // Run a java app in a separate system process
-                Process proc = null;
+                /*Process proc = null;
                 try {
-                    proc = Runtime.getRuntime().exec("java -jar builds/Space_Lapse_Server_Build_1.jar");
+                    proc = Runtime.getRuntime().exec("java -jar builds/Space_Lapse_Server_Build_2.jar");
                 } catch (IOException e) {
                     System.out.println("Error starting server executable file");
                 }
-                System.out.println("Started server jar file");
+                System.out.println("Started server jar file");*/
 
-                System.out.println();
-                // TODO Start the server ()
                 GameClient gameclient = new GameClient();
                 gameclient.JoinGame("localhost", 8976);
                 sbg.enterState(2); // Enter Join State
@@ -147,7 +145,7 @@ public class MainMenu extends BasicGameState {
         quitgame.render(gameContainer, graphics);
         quitgame.setFont(Fonts.getImpact());
 
-        displayPlayerInfo(gameContainer, graphics);
+        //displayPlayerInfo(gameContainer, graphics);
         // Render the textinputs
         // port.render(gc, graphics);
     }
@@ -175,7 +173,7 @@ public class MainMenu extends BasicGameState {
 
         graphics.drawString(player.screenName, playerStats, 80);
 
-        TextLabel.render(playerStats, 120, "Level " + player.level, Color.decode("#DE8D1B"), font24, graphics);
+        //TextLabel.render(playerStats, 120, "Level " + player.level, Color.decode("#DE8D1B"), font24, graphics);
 
         TextLabel.render(playerStats, 150, "XP to level up " + player.xp + " XP", Color.gray, font18, graphics);
 

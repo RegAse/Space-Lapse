@@ -1,5 +1,6 @@
 package com.spacelapse.entities;
 
+import com.spacelapse.Game;
 import com.spacelapse.Survival;
 import com.spacelapse.resourcemanager.Textures;
 import com.spacelapse.server.GameServer;
@@ -30,7 +31,7 @@ public class Bullet extends Entity{
         Image bullet = Textures.getBullet();
         bullet.setRotation(rotation);
         bullet.drawCentered(position.x, position.y);
-        graphics.draw(new Rectangle(position.x, position.y, 10, 10));
+        //graphics.draw(new Rectangle(position.x, position.y, 10, 10));
     }
 
     @Override
@@ -50,13 +51,11 @@ public class Bullet extends Entity{
     public void addForceToBullet(GameContainer gameContainer, int delta) {
         if (position.x > gameContainer.getWidth() || position.y > gameContainer.getHeight() || position.x < - 10 || position.y < - 10) {
             if (!GameServer.isInitialized) {
-                //Survival.entities.remove(this);
-                System.out.println("Bullet id: " + this.id);
-                for (int i = 0; i < Survival.entities.size(); i++) {
-                    if (Survival.entities.get(i).id == this.id) {
-                        Survival.entities.remove(i);
-                    }
-                }
+                Survival.entitiesToBeDestroyed.add(this.id);
+            }
+            else
+            {
+                GameServer.entitiesToBeDestroyed.add(this.id);
             }
         }
         else {

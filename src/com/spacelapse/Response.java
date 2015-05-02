@@ -24,6 +24,7 @@ public class Response {
     public Ship ship;
     public Asteroid asteroid;
     public Bullet bullet;
+    public GameSession gameSession;
 
     /** Must be Integer not int **/
     public Integer playerCount = 1;
@@ -40,6 +41,7 @@ public class Response {
     public Response(Ship ship){ this.ship = ship; }
     public Response(Bullet bullet) { this.bullet = bullet; }
     public void removeEntity(int removeEntityWithThisId){ this.removeEntity = removeEntityWithThisId; }
+    public void setGameSession(GameSession gameSession) { this.gameSession = gameSession; }
 
     /**
      * Send the data to the server

@@ -26,6 +26,7 @@ public class Survival extends BasicGameState{
     public Player player;
     public static GameSession gameSession;
     public static boolean gameOver = false;
+    public static float gameOverScore;
     private Font font30;
     private Font font22;
 
@@ -54,8 +55,10 @@ public class Survival extends BasicGameState{
             }
         }
         renderHUD(gc, sbg, graphics);
+        // if gameOver is false then show message on screen
         if (gameOver) {
             graphics.setFont(font30);
+            graphics.drawString("Score: " + gameOverScore, 300, 270);
             graphics.drawString("Game Over", 300, 300);
         }
     }
@@ -85,6 +88,7 @@ public class Survival extends BasicGameState{
                 entitiesToBeDestroyed.remove((Integer)entity.id);
                 if (entity.id == my_id) {
                     gameOver = true;
+                    gameOverScore = gameSession.score;
                     Ship ship = (Ship)entity;
                     health = ship.health;
                     my_ship = (Enforcer)ship;
@@ -109,17 +113,20 @@ public class Survival extends BasicGameState{
                     Entity entity2 = entities.get(i2);
 
                     if (entity2 != null && !(entity2 instanceof Bullet) && entity2.id != bullet.ownerId && entity2.intersects(bullet)) {
-
+                        // if health is 0 or below then tell the game to destroy the ship
                         if (entity2.health <= 0) {
                             entitiesToBeDestroyed.add(entity2.id);
                         }
                         break;
                     }
                 }
+                // Add force to bullets
                 bullet.addForceToBullet(gameContainer, delta);
             }
             else if (entity != null && entity instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid)entity;
+
+                // Make asteroid move towards it's target
                 asteroid.moveTowardsTarget(0.190f);
 
                 if (my_ship != null && my_ship.intersects(asteroid) && health > 0) {

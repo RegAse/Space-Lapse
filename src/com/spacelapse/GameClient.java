@@ -67,8 +67,9 @@ public class GameClient extends Thread{
     }
 
     /**
-     * Process Data from server
-     * */
+     * Process the data from the server
+     * @param data json string
+     */
     public void ProcessServerData(String data) {
         Gson gson = new Gson();
         Response response = gson.fromJson(data, Response.class);
@@ -136,22 +137,10 @@ public class GameClient extends Thread{
                 break;
             case "bullet":
                 Bullet bullet = response.bullet;
-                /*boolean f2 = false;
-                for (int i = 0; i < Survival.entities.size(); i++) {
-                    if (Survival.entities.get(i).id == bullet.id) {
-                        Survival.entities.set(i, bullet);
-                        f2 = true;
-                        break;
-                    }
-                }
-                if (f2 == false) {
-                    System.out.println("Adding to list");
-                    Survival.entities.add(bullet);
-                }*/
+
                 Survival.entities.add(bullet);
                 break;
             case "gameSession":
-                //System.out.println("Got gameSession data");
                 GameSession gameSession = response.gameSession;
                 Survival.gameSession = gameSession;
                 break;

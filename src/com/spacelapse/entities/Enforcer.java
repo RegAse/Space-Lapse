@@ -14,7 +14,7 @@ public class Enforcer extends Ship{
     /**
      * Constructor for Enforcer
      */
-    public Enforcer(int x, int y, float speed, float health) throws SlickException {
+    public Enforcer(float x, float y, float speed, float health) throws SlickException {
         super(x, y, speed, health);
     }
 

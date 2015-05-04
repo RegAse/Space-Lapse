@@ -19,7 +19,7 @@ public class Ship extends Entity{
     /**
      * Constructor for Ship
      */
-    public Ship(int x, int y, float speed, float health) throws SlickException {
+    public Ship(float x, float y, float speed, float health) throws SlickException {
         super(x, y, speed, health);
     }
 

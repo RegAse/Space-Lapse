@@ -30,6 +30,8 @@ public class GameServer extends BasicGame{
     private static ServerSocket socket;
     private static ArrayList<Socket> connectedSockets = new ArrayList<Socket>();
     public static GameSession gameSession = new GameSession(0, 0, 0);
+    public static float width;
+    public static float height;
     private Random random;
     private Timer timer;
 
@@ -40,11 +42,9 @@ public class GameServer extends BasicGame{
     private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     public static List<Integer> entitiesToBeDestroyed = Collections.synchronizedList(new ArrayList<>());
 
-    public static int getNextEntityId(){
-        return next_entity_id++;
-    }
-
-
+    /**
+     * Contructor
+     */
     public GameServer()
     {
         super("Server Version: " + versionNumber);
@@ -55,7 +55,10 @@ public class GameServer extends BasicGame{
         isInitialized = true;
         random = new Random();
         timer = new Timer();
+        height = gameContainer.getHeight();
+        width = gameContainer.getWidth();
 
+        // Use a timer to spawn asteroids at a interval
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -66,31 +69,25 @@ public class GameServer extends BasicGame{
                 if (rand == 1) {
                     // Left
                     asteroid = new Asteroid(0, random.nextInt(height), 0.5f, 30f, width, random.nextInt(height));
-                }
-                else if (rand == 2) {
+                } else if (rand == 2) {
                     // Right
                     asteroid = new Asteroid(width, random.nextInt(height), 0.5f, random.nextInt(40), 0, random.nextInt(height));
-                }
-                else if (rand == 3) {
+                } else if (rand == 3) {
                     // Top
                     asteroid = new Asteroid(random.nextInt(width), 0, 0.5f, random.nextInt(40), random.nextInt(width), height);
-                }
-                else if (rand == 4) {
+                } else if (rand == 4) {
                     // Bottom
                     asteroid = new Asteroid(random.nextInt(width), height, 0.5f, 30f, random.nextInt(width), 0);
                 }
                 entities.add(asteroid);
 
-                //Gson gson = new Gson();
-                //Response response = new Response(asteroid);
-                //sendJsonToAll(gson.toJson(response));
                 try {
                     sendGameData();
                 } catch (SlickException e) {
                     System.out.println("Error trying send game data in asteroid creation");
                 }
             }
-        }, 1*1*700, 1*1*700);
+        }, 1 * 1 * 7000, 1 * 1 * 1000);
     }
 
     @Override
@@ -151,6 +148,11 @@ public class GameServer extends BasicGame{
         graphics.drawString("Connected players: " + connectedSockets.size(), 15, 30);
     }
 
+    /**
+     * The entry point of the server
+     * @param arguments
+     * @throws SlickException
+     */
     public static void main(String[] arguments) throws SlickException {
         System.out.println("Server setting up... ");
         System.out.println("Server Version: " + versionNumber);
@@ -181,6 +183,18 @@ public class GameServer extends BasicGame{
         }
     }
 
+
+    /**
+     * Gets the next id for a entity
+     * @return int
+     */
+    public static int getNextEntityId(){
+        return next_entity_id++;
+    }
+
+    /**
+     * Creates the ServerSocket
+     */
     public static void setupServer() {
         try {
             socket = new ServerSocket(portNumber);
@@ -190,11 +204,17 @@ public class GameServer extends BasicGame{
         System.out.println("Server Started");
     }
 
+    /**
+     * Display the number connections connected
+     */
     public static void connectionsStatus()
     {
         System.out.println("Connections: " + connectedSockets.size());
     }
 
+    /**
+     * Listen for new connections
+     */
     public static void listenForNewConnection() {
        while(true) {
            try {
@@ -214,8 +234,11 @@ public class GameServer extends BasicGame{
                System.out.println("GameServer: " + firstMessage);
 
                try {
+                   //Create a new player
                    newPlayer();
                    gameSession.playerCount = connectedSockets.size();
+
+                   // Send all the game data to the client
                    sendGameSessionData();
                } catch (SlickException e) {
                    e.printStackTrace();
@@ -234,6 +257,11 @@ public class GameServer extends BasicGame{
        }
     }
 
+    /**
+     * Constantly listen to a client
+     * @param connection client socket connection
+     * @param receive_from_client receive from client dataStream
+     */
     public static void listenToClient(Socket connection, DataInputStream receive_from_client) {
         while(true) {
             try {
@@ -269,6 +297,12 @@ public class GameServer extends BasicGame{
         }
     }
 
+    /**
+     * Process the field from a Response send by a client
+     * @param response the response instance
+     * @param field the field to process
+     * @param data json data string
+     */
     private static void processField(Response response, Field field, String data) {
         switch(field.getName()){
             case "bullet":
@@ -298,6 +332,10 @@ public class GameServer extends BasicGame{
         }
     }
 
+    /**
+     * Sends json to all connected clients
+     * @param json json
+     */
     public static void sendJsonToAll(String json) {
         int i = - 1;
         while(++i < connectedSockets.size()) {
@@ -316,8 +354,13 @@ public class GameServer extends BasicGame{
     /**
      * Game setup functions
      **/
+
+    /**
+     * Creates a new player
+     * @throws SlickException
+     */
     public static void newPlayer() throws SlickException {
-        Enforcer new_ship = new Enforcer(100, 100, 0.5f, 100f);
+        Enforcer new_ship = new Enforcer(width / 2, height / 2, 0.5f, 100f);
         entities.add(new_ship);
 
         sendGameData();
@@ -368,15 +411,21 @@ public class GameServer extends BasicGame{
        }
     }
 
+    /**
+     * Sends the GameSession data(score, connected players etc)
+     */
     public static void sendGameSessionData() {
         Response response = new Response();
         response.setGameSession(gameSession);
         Gson gson = new Gson();
         String json = gson.toJson(response);
         sendJsonToAll(json);
-        System.out.println("Send gamesession data");
     }
 
+    /**
+     * Sends the all of the entities one by one to the client
+     * @throws SlickException
+     */
     public static void sendGameData() throws SlickException {
         /* Send all the ships to all of the clients */
         for (int i = entities.size() - 1; i >= 0; i--) {
@@ -398,6 +447,9 @@ public class GameServer extends BasicGame{
     private static Timer heartBeatTimer = new Timer();
     private static int heartBeatInterval = 2; // Seconds
 
+    /**
+     * Sets up the heartbeat to run at 1000 millisecond interval
+     */
     public static void setupHeartBeat() {
         heartBeatTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -407,6 +459,9 @@ public class GameServer extends BasicGame{
         }, heartBeatInterval * 1000, heartBeatInterval * 1000);
     }
 
+    /**
+     * Sends the heartbeat to the client
+     */
     public static void heartBeat() {
         int i = - 1;
         while (++i < connectedSockets.size()) {

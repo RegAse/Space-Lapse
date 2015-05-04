@@ -15,11 +15,26 @@ public class Asteroid extends Entity{
 
     private Vector2f target;
 
+    /**
+     * Constructor to create the Asteroid
+     * @param x x location
+     * @param y y location
+     * @param speed speed of the asteroid
+     * @param health  health of the asteroid
+     * @param targetX target x location
+     * @param targetY target y location
+     */
     public Asteroid(int x, int y, float speed, float health, float targetX, float targetY) {
         super(x, y, speed, health);
         target = new Vector2f(targetX, targetY);
     }
 
+    /**
+     * Override the default render method of a Entity
+     * @param gameContainer gameContainer
+     * @param graphics graphics context
+     * @throws SlickException
+     */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         Image texture = Textures.getAsteroid();
@@ -34,6 +49,12 @@ public class Asteroid extends Entity{
         //graphics.draw(new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
     }
 
+    /**
+     * Intersection with a bullet
+     * @param bullet the bullet intersecting with
+     * @return boolean
+     * @throws SlickException
+     */
     @Override
     public boolean intersects(Bullet bullet) throws SlickException {
         if (bullet == null || bullet.position == null || position == null){
@@ -46,11 +67,20 @@ public class Asteroid extends Entity{
         return shape.intersects(new Rectangle(position.x - (textureWidth / 2), position.y - (textureHeight / 2), textureWidth, textureHeight));
     }
 
+    /**
+     * Applies 135% damage to the asteroid
+     * @param damage damage
+     * @return float
+     */
     @Override
     public float applyDamage(float damage) {
-        return this.health -= damage;
+        return this.health -= damage * 1.35;
     }
 
+    /**
+     * Move the asteroid towards it's target
+     * @param speed speed of the asteroid
+     */
     public void moveTowardsTarget(float speed) {
         Vector2f dir = new Vector2f();
         dir.x = target.x - position.x;
